@@ -97665,7 +97665,7 @@
         {
             "ankama_id": 652,
             "name": "Prunkset des Kwönigs Desnowdens",
-            "items": 4,
+            "items": 5,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -97673,7 +97673,8 @@
                 20739,
                 22322,
                 24188,
-                26256
+                26256,
+                35058
             ]
         },
         {

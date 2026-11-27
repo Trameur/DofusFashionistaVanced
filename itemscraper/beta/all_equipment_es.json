@@ -11458,7 +11458,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/23001-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/23001-128.png"
             },
-            "description": "Ignemikhal, el dragón de fuego, creó el dofus Púrpura, un huevo que huele a azufre que da asco... Aunque la verdad, también huele a muchas cosas más...",
+            "description": "Este dofus huele a azufre, pero también a chamusquina. ¿Qué podemos esperar del crisol primordial de donde salió Ignemikhal, el dragón rojo que siempre tiene vela en los entierros? La verdad es que es como para encenderse.",
             "effects": [
                 {
                     "int_minimum": 80,
@@ -13122,7 +13122,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/23002-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/23002-128.png"
             },
-            "description": "El dofus Esmeralda es más verde que un tofu enfermo y fue creado por Aerafal, el dragón del aire. Seguro que este dragón se mareaba volando... El colmo, ¿no te parece?",
+            "description": "Del dofus Esmeralda, del mismo color que un tofu enfermo, nació Aerafal. El dragón de los vientos debió de salir con vértigo de un huevo tan verde. El colmo, ¿no te parece?",
             "effects": [
                 {
                     "int_minimum": 200,
@@ -13192,7 +13192,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/23003-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/23003-128.png"
             },
-            "description": "El dofus Turquesa fue creado por Aguabrial, el dragón del agua. Cuando uno se para a pensar, es increíble lo que puede hacer un dragón con el agua...",
+            "description": "¿Te parece raro que un dragón como Aguabrial naciera de un dofus que parece una gota de agua en el océano? Si tenemos en cuenta los peligros a los que se enfrentan las tortuguitas para salir de su cascarón al mar, un huevo marino no es mala idea.",
             "effects": [
                 {
                     "int_minimum": 10,
@@ -86870,7 +86870,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/23007-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/23007-128.png"
             },
-            "description": "Grugalorasalar, el dragón negro, oscuro como las tinieblas y duro como la roca, creó el dofus Ébano para que le hiciera compañía. Pero olvidó que un simple huevo, por muy mágico que sea, no puede hablar.",
+            "description": "Grugalorasalar el Fuliginoso nació de este dofus, que considera su bien más preciado. Dicen que incluso aprecia su compañía... En las tinieblas de su soledad, el dragón negro olvidó que un huevo, por muy mágico que sea, no habla.",
             "effects": [
                 {
                     "int_minimum": 182,
@@ -86940,7 +86940,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/23011-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/23011-128.png"
             },
-            "description": "Si su blancura no tiene parangón, es porque Dardondakal, el dragón blanco, blanquea el dofus Marfil con su aliento cada mañana (un truco que le enseñó su abuela dragón).",
+            "description": "El lustre de este dofus no tiene rival porque Dardondakal le saca brillo a su cáscara soplándole cada mañana. Un truquillo que, seguramente, le pasó el Gran Dragón.",
             "effects": [
                 {
                     "int_minimum": 4,
@@ -105572,7 +105572,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/23012-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/23012-128.png"
             },
-            "description": "Terrakurial, el dragón de la tierra, es el creador del dofus Ocre. Este dofus encierra grandes poderes por lo cual no debe dejarse entre las manos de cualquiera... ¡y tampoco entre los pies!",
+            "description": "El dofus Ocre eclosionó para liberar no a un ave amarilla, sino a Terrakurial, el dragón de los bosques. Un prodigio que sorprende a quienes no tienen mucho los pies en la tierra.",
             "effects": [
                 {
                     "int_minimum": 1,
@@ -545807,7 +545807,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/23040-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/23040-128.png"
             },
-            "description": "[!] On dit qu'un authentique œuf de dragon peut réapparaître, intact, après éclosion. Mais il existe d'autres magies capables de transformer des morceaux de coquille en Dofus... comme le pouvoir de la Source, associé à une puissance en devenir.",
+            "description": "Dicen que un auténtico huevo de dragón puede reaparecer, intacto, después de una eclosión. Pero existen otros tipos de magia capaces de transformar trozos de cáscara en dofus... como el poder de la Fuente, vinculado a un poder en ciernes.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -545833,7 +545833,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat)."
+                    "formatted": "{{spell,31720,1::Dofus de la Fuente}}:\n• Cuando el portador tiene menos de un 50% de vida, gana un 30% de resistencias (2 turnos, 1 vez por combate)."
                 },
                 {
                     "int_minimum": 0,
@@ -546692,7 +546692,7 @@
         },
         {
             "ankama_id": 34719,
-            "name": "Sari de los salamandros",
+            "name": "Sari de carbosaurio",
             "type": {
                 "name": "Cinturón",
                 "id": 58
@@ -546702,7 +546702,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/10375-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/10375-128.png"
             },
-            "description": "[!] Les Charbosaures sont des créatures au sang bouillonnant. Lorsqu'ils sont en colères, leur corps s'embrase. Plus ils sont en colère, plus leur flamme est grande.",
+            "description": "Los carbosaurios son criaturas a las que les hierve la sangre. Cuando se enfurecen, su cuerpo se pone a arder. Cuanto más enfurecidos están, mayor es su fuego.",
             "effects": [
                 {
                     "int_minimum": -3,
@@ -546766,7 +546766,7 @@
         },
         {
             "ankama_id": 34720,
-            "name": "Sello de los salamandros",
+            "name": "Sello de carbosaurio",
             "type": {
                 "name": "Anillo",
                 "id": 17
@@ -546776,7 +546776,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/9423-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/9423-128.png"
             },
-            "description": "[!] Une simple étincelle suffit à embraser ce sceau.",
+            "description": "Basta una sola chispa para encender este sello.",
             "effects": [
                 {
                     "int_minimum": -3,
@@ -546840,7 +546840,7 @@
         },
         {
             "ankama_id": 34721,
-            "name": "Martillo salamandro",
+            "name": "Martillo de carbosaurio",
             "type": {
                 "name": "Martillo",
                 "id": 42
@@ -546850,7 +546850,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/7756-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/7756-128.png"
             },
-            "description": "[!] Un coup de ce marteau suffira à raviver votre flamme intérieure.",
+            "description": "Un martillazo con él bastará para despertar tu fuego interior.",
             "effects": [
                 {
                     "int_minimum": 51,
@@ -546929,19 +546929,6 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "9 a 11 de daños de fuego"
-                },
-                {
-                    "int_minimum": 4,
-                    "int_maximum": 5,
-                    "type": {
-                        "name": "de daños de fuego",
-                        "id": 198,
-                        "is_meta": false,
-                        "is_active": true
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "4 a 5 de daños de fuego"
                 }
             ],
             "is_weapon": true,
@@ -546951,7 +546938,7 @@
                 "name": "Set de los carbosaurios"
             },
             "critical_hit_probability": 40,
-            "critical_hit_bonus": 3,
+            "critical_hit_bonus": 5,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -547230,7 +547217,7 @@
         },
         {
             "ankama_id": 34725,
-            "name": "Adorno de dracornoque",
+            "name": "Adorno de mandragón",
             "type": {
                 "name": "Amuleto",
                 "id": 33
@@ -547325,12 +547312,12 @@
             "pods": 1,
             "parent_set": {
                 "id": 1115,
-                "name": "Set dracornoque"
+                "name": "Set de mandragón"
             }
         },
         {
             "ankama_id": 34726,
-            "name": "Alianza de dracornoque",
+            "name": "Alianza de mandragón",
             "type": {
                 "name": "Anillo",
                 "id": 17
@@ -547399,12 +547386,12 @@
             "pods": 1,
             "parent_set": {
                 "id": 1115,
-                "name": "Set dracornoque"
+                "name": "Set de mandragón"
             }
         },
         {
             "ankama_id": 34727,
-            "name": "Hacha de dracornoque",
+            "name": "Hacha de mandragón",
             "type": {
                 "name": "Hacha",
                 "id": 73
@@ -547486,7 +547473,7 @@
             "pods": 1,
             "parent_set": {
                 "id": 1115,
-                "name": "Set dracornoque"
+                "name": "Set de mandragón"
             },
             "critical_hit_probability": 30,
             "critical_hit_bonus": 20,
@@ -548232,7 +548219,7 @@
         },
         {
             "ankama_id": 34734,
-            "name": "[!] Sandales Thalassydres",
+            "name": "Sandalias de hídrada",
             "type": {
                 "name": "Bota",
                 "id": 45
@@ -548327,12 +548314,12 @@
             "pods": 1,
             "parent_set": {
                 "id": 1116,
-                "name": "Set dragocampo"
+                "name": "Set de hídrada"
             }
         },
         {
             "ankama_id": 34735,
-            "name": "Sari de dragocampo",
+            "name": "Sari de hídrada",
             "type": {
                 "name": "Cinturón",
                 "id": 58
@@ -548401,12 +548388,12 @@
             "pods": 1,
             "parent_set": {
                 "id": 1116,
-                "name": "Set dragocampo"
+                "name": "Set de hídrada"
             }
         },
         {
             "ankama_id": 34736,
-            "name": "Lanza de dragocampo",
+            "name": "Lanza de hídrada",
             "type": {
                 "name": "Lanza",
                 "id": 111
@@ -548488,7 +548475,7 @@
             "pods": 1,
             "parent_set": {
                 "id": 1116,
-                "name": "Set dragocampo"
+                "name": "Set de hídrada"
             },
             "critical_hit_probability": 15,
             "critical_hit_bonus": 15,
@@ -548521,7 +548508,7 @@
                 {
                     "item_ankama_id": 34878,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34884,
@@ -548531,7 +548518,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -548640,6 +548647,213 @@
                     "formatted": "11 a 15 prospección"
                 },
                 {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia a la tierra",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia a la tierra"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia al aire",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia al aire"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "% resistencia al fuego",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 12% resistencia al fuego"
+                },
+                {
+                    "int_minimum": -6,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% resistencia al agua",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-6% resistencia al agua"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1119,
+                "name": "Cenizas de Guira"
+            }
+        },
+        {
+            "ankama_id": 34738,
+            "name": "Sello de Guira",
+            "type": {
+                "name": "Anillo",
+                "id": 17
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-128.png"
+            },
+            "description": "[!] Chacun tourne en réalités,\nAutant qu'il peut, ses propres songes :\nL'homme est de glace aux vérités ;\nIl est de feu pour les mensonges.",
+            "recipe": [
+                {
+                    "item_ankama_id": 34720,
+                    "item_subtype": "equipment",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 34878,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34890,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 201,
+                    "int_maximum": 250,
+                    "type": {
+                        "name": "vitalidad",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "201 a 250 vitalidad"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "inteligencia",
+                        "id": 13,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 a 40 inteligencia"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "potencia (daños generales)",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 a 40 potencia (daños generales)"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 25,
+                    "type": {
+                        "name": "sabiduría",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 25 sabiduría"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% crítico",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4 % crítico"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "de daño crítico",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 a 15 de daños críticos"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "prospección",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 a 10 prospección"
+                },
+                {
                     "int_minimum": 11,
                     "int_maximum": 15,
                     "type": {
@@ -548700,167 +548914,6 @@
             }
         },
         {
-            "ankama_id": 34738,
-            "name": "Sello de Guira",
-            "type": {
-                "name": "Anillo",
-                "id": 17
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-128.png"
-            },
-            "description": "",
-            "recipe": [
-                {
-                    "item_ankama_id": 34720,
-                    "item_subtype": "equipment",
-                    "quantity": 1
-                },
-                {
-                    "item_ankama_id": 34878,
-                    "item_subtype": "resources",
-                    "quantity": 60
-                },
-                {
-                    "item_ankama_id": 34884,
-                    "item_subtype": "resources",
-                    "quantity": 4
-                },
-                {
-                    "item_ankama_id": 34890,
-                    "item_subtype": "resources",
-                    "quantity": 1
-                }
-            ],
-            "effects": [
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 250,
-                    "type": {
-                        "name": "vitalidad",
-                        "id": 9,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 a 250 vitalidad"
-                },
-                {
-                    "int_minimum": 31,
-                    "int_maximum": 40,
-                    "type": {
-                        "name": "inteligencia",
-                        "id": 13,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "31 a 40 inteligencia"
-                },
-                {
-                    "int_minimum": 41,
-                    "int_maximum": 60,
-                    "type": {
-                        "name": "potencia (daños generales)",
-                        "id": 32,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "41 a 60 potencia (daños generales)"
-                },
-                {
-                    "int_minimum": 16,
-                    "int_maximum": 25,
-                    "type": {
-                        "name": "sabiduría",
-                        "id": 10,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "16 a 25 sabiduría"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% crítico",
-                        "id": 29,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 a 4 % crítico"
-                },
-                {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
-                    "type": {
-                        "name": "de daño crítico",
-                        "id": 38,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "11 a 15 de daños críticos"
-                },
-                {
-                    "int_minimum": 7,
-                    "int_maximum": 10,
-                    "type": {
-                        "name": "prospección",
-                        "id": 25,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "7 a 10 prospección"
-                },
-                {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
-                    "type": {
-                        "name": "% resistencia al fuego",
-                        "id": 37,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "9 a 12% resistencia al fuego"
-                },
-                {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% resistencia al agua",
-                        "id": 17,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% resistencia al agua"
-                }
-            ],
-            "is_weapon": false,
-            "pods": 10,
-            "parent_set": {
-                "id": 1119,
-                "name": "Cenizas de Guira"
-            }
-        },
-        {
             "ankama_id": 34739,
             "name": "Martillo de Guira",
             "type": {
@@ -548882,7 +548935,7 @@
                 {
                     "item_ankama_id": 34878,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34884,
@@ -548892,7 +548945,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -549014,32 +549087,6 @@
                     "formatted": "-15 esquiva PM"
                 },
                 {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% resistencia a la tierra",
-                        "id": 63,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 a 4% resistencia a la tierra"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% resistencia al aire",
-                        "id": 16,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 a 4% resistencia al aire"
-                },
-                {
                     "int_minimum": 9,
                     "int_maximum": 12,
                     "type": {
@@ -549053,21 +549100,8 @@
                     "formatted": "9 a 12% resistencia al fuego"
                 },
                 {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% resistencia al agua",
-                        "id": 17,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% resistencia al agua"
-                },
-                {
-                    "int_minimum": 55,
-                    "int_maximum": 58,
+                    "int_minimum": 42,
+                    "int_maximum": 47,
                     "type": {
                         "name": "de daños de fuego",
                         "id": 198,
@@ -549076,7 +549110,20 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "55 a 58 de daños de fuego"
+                    "formatted": "42 a 47 de daños de fuego"
+                },
+                {
+                    "int_minimum": 6,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "de daños de fuego",
+                        "id": 198,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "6 a 7 de daños de fuego"
                 }
             ],
             "is_weapon": true,
@@ -549086,7 +549133,7 @@
                 "name": "Cenizas de Guira"
             },
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 7,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -549106,7 +549153,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17711-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17711-128.png"
             },
-            "description": "",
+            "description": "[!] « Si tu me crois naïve, ma très chère sœur, tu changeras d'avis.\n\nDe cette île que j'aime tant et qui nous a vues naître, j'en ai fait le tour.\n\nJ'irai visiter les palais de royaumes lointains, voir les montagnes par-delà la mer, embrasser cet ailleurs qui me tend les bras. Attends de voir les histoires et les trésors que je ramènerais avec moi !\n\nPuissent ici les jours alcyoniens durer toujours.\n\nJe n'emporte que ma lyre et des fruits jeunes. Je pars sans doutes ni regrets, car je sais que le vent guidera ma route.\n\nPrends soin de l'île et de nos sœurs,\n\nElil. »",
             "recipe": [
                 {
                     "item_ankama_id": 34722,
@@ -549116,7 +549163,7 @@
                 {
                     "item_ankama_id": 34880,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34886,
@@ -549126,7 +549173,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -549306,7 +549373,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82621-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82621-128.png"
             },
-            "description": "",
+            "description": "[!] « Le Mont Émeraude pour nos lèvres a vermeillé ses treilles,\nLes temples sont ouverts, les dragons sont revenus,\nLe Berceau sur la mer a vidé ses corbeilles,\nEt les flots ioniens ont lustré nos pieds nus. »\n\n— poème Bellaphone",
             "recipe": [
                 {
                     "item_ankama_id": 34723,
@@ -549316,7 +549383,7 @@
                 {
                     "item_ankama_id": 34880,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34886,
@@ -549326,7 +549393,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -549396,8 +549483,8 @@
                     "formatted": "3 a 5 % crítico"
                 },
                 {
-                    "int_minimum": 21,
-                    "int_maximum": 30,
+                    "int_minimum": 31,
+                    "int_maximum": 40,
                     "type": {
                         "name": "de daño de empuje",
                         "id": 62,
@@ -549406,7 +549493,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "21 a 30 de daño de empuje"
+                    "formatted": "31 a 40 de daño de empuje"
                 },
                 {
                     "int_minimum": 11,
@@ -549420,6 +549507,32 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "11 a 15 prospección"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia al fuego",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia al fuego"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia al agua",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia al agua"
                 },
                 {
                     "int_minimum": 9,
@@ -549477,7 +549590,7 @@
                 {
                     "item_ankama_id": 34880,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34886,
@@ -549487,7 +549600,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -549495,14 +549628,14 @@
                     "int_minimum": 12,
                     "int_maximum": 14,
                     "type": {
-                        "name": "de daños de aire",
-                        "id": 189,
+                        "name": "de robo de aire",
+                        "id": 224,
                         "is_meta": false,
                         "is_active": true
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "12 a 14 de daños de aire"
+                    "formatted": "12 a 14 de robo de aire"
                 },
                 {
                     "int_minimum": 9,
@@ -549635,32 +549768,6 @@
                     "formatted": "-15 huida"
                 },
                 {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% resistencia al fuego",
-                        "id": 37,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 a 4% resistencia al fuego"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% resistencia al agua",
-                        "id": 17,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 a 4% resistencia al agua"
-                },
-                {
                     "int_minimum": 9,
                     "int_maximum": 12,
                     "type": {
@@ -549672,19 +549779,6 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "9 a 12% resistencia al aire"
-                },
-                {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% resistencia a la tierra",
-                        "id": 63,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% resistencia a la tierra"
                 }
             ],
             "is_weapon": true,
@@ -549694,7 +549788,7 @@
                 "name": "Reliquias de Elil"
             },
             "critical_hit_probability": 20,
-            "critical_hit_bonus": 5,
+            "critical_hit_bonus": 8,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -549724,7 +549818,7 @@
                 {
                     "item_ankama_id": 34879,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34885,
@@ -549734,7 +549828,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -549856,6 +549970,226 @@
                     "formatted": "11 a 15 prospección"
                 },
                 {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "% resistencia a la tierra",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 12% resistencia a la tierra"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia al agua",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia al agua"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia al fuego",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia al fuego"
+                },
+                {
+                    "int_minimum": -6,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% resistencia al aire",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-6% resistencia al aire"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1121,
+                "name": "Recuerdos de Ninma"
+            }
+        },
+        {
+            "ankama_id": 34744,
+            "name": "Alianza de Ninma",
+            "type": {
+                "name": "Anillo",
+                "id": 17
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-128.png"
+            },
+            "description": "[!] Souvenir d'un amour interdit, fruit d'une passion oubliée ; de cette alliance émane encore une douce chaleur, pareille à celle de la terre labourée.",
+            "recipe": [
+                {
+                    "item_ankama_id": 34726,
+                    "item_subtype": "equipment",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 34879,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34890,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 201,
+                    "int_maximum": 250,
+                    "type": {
+                        "name": "vitalidad",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "201 a 250 vitalidad"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "fuerza",
+                        "id": 45,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 a 40 fuerza"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "potencia (daños generales)",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 a 40 potencia (daños generales)"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 25,
+                    "type": {
+                        "name": "sabiduría",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 25 sabiduría"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 5,
+                    "type": {
+                        "name": "% crítico",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 5 % crítico"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 8,
+                    "type": {
+                        "name": "de daño de tierra",
+                        "id": 48,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 a 8 de daño de tierra"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "prospección",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 a 10 prospección"
+                },
+                {
+                    "int_minimum": 201,
+                    "int_maximum": 300,
+                    "type": {
+                        "name": "iniciativa",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "201 a 300 iniciativa"
+                },
+                {
                     "int_minimum": 11,
                     "int_maximum": 15,
                     "type": {
@@ -549916,180 +550250,6 @@
             }
         },
         {
-            "ankama_id": 34744,
-            "name": "Alianza de Ninma",
-            "type": {
-                "name": "Anillo",
-                "id": 17
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-128.png"
-            },
-            "description": "",
-            "recipe": [
-                {
-                    "item_ankama_id": 34726,
-                    "item_subtype": "equipment",
-                    "quantity": 1
-                },
-                {
-                    "item_ankama_id": 34879,
-                    "item_subtype": "resources",
-                    "quantity": 60
-                },
-                {
-                    "item_ankama_id": 34885,
-                    "item_subtype": "resources",
-                    "quantity": 4
-                },
-                {
-                    "item_ankama_id": 34890,
-                    "item_subtype": "resources",
-                    "quantity": 1
-                }
-            ],
-            "effects": [
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 250,
-                    "type": {
-                        "name": "vitalidad",
-                        "id": 9,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 a 250 vitalidad"
-                },
-                {
-                    "int_minimum": 31,
-                    "int_maximum": 40,
-                    "type": {
-                        "name": "fuerza",
-                        "id": 45,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "31 a 40 fuerza"
-                },
-                {
-                    "int_minimum": 41,
-                    "int_maximum": 60,
-                    "type": {
-                        "name": "potencia (daños generales)",
-                        "id": 32,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "41 a 60 potencia (daños generales)"
-                },
-                {
-                    "int_minimum": 16,
-                    "int_maximum": 25,
-                    "type": {
-                        "name": "sabiduría",
-                        "id": 10,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "16 a 25 sabiduría"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 5,
-                    "type": {
-                        "name": "% crítico",
-                        "id": 29,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 a 5 % crítico"
-                },
-                {
-                    "int_minimum": 5,
-                    "int_maximum": 8,
-                    "type": {
-                        "name": "de daño de tierra",
-                        "id": 48,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "5 a 8 de daño de tierra"
-                },
-                {
-                    "int_minimum": 7,
-                    "int_maximum": 10,
-                    "type": {
-                        "name": "prospección",
-                        "id": 25,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "7 a 10 prospección"
-                },
-                {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
-                    "type": {
-                        "name": "% resistencia a la tierra",
-                        "id": 63,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "9 a 12% resistencia a la tierra"
-                },
-                {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% resistencia al aire",
-                        "id": 16,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% resistencia al aire"
-                },
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 300,
-                    "type": {
-                        "name": "iniciativa",
-                        "id": 24,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 a 300 iniciativa"
-                }
-            ],
-            "is_weapon": false,
-            "pods": 10,
-            "parent_set": {
-                "id": 1121,
-                "name": "Recuerdos de Ninma"
-            }
-        },
-        {
             "ankama_id": 34745,
             "name": "Hacha de Ninma",
             "type": {
@@ -550111,7 +550271,7 @@
                 {
                     "item_ankama_id": 34879,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34885,
@@ -550121,7 +550281,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -550139,19 +550319,6 @@
                     "formatted": "51 a 62 de daños de tierra"
                 },
                 {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% resistencia al aire",
-                        "id": 16,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% resistencia al aire"
-                },
-                {
                     "int_minimum": 9,
                     "int_maximum": 12,
                     "type": {
@@ -550163,32 +550330,6 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "9 a 12% resistencia a la tierra"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% resistencia al agua",
-                        "id": 17,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 a 4% resistencia al agua"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% resistencia al fuego",
-                        "id": 37,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 a 4% resistencia al fuego"
                 },
                 {
                     "int_minimum": -15,
@@ -550335,7 +550476,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82609-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82609-128.png"
             },
-            "description": "",
+            "description": "[!] À la surface de ce miroir dansent des reflets d'une beauté obsédante. Derrière ces mirages, on discerne pourtant un grand précipice, qui semble plonger au plus profond de l'âme. Prenez garde à ne pas vous éblouir ou vous noyer, mais une grande sagesse y réside pour qui cherche la vérité.",
             "recipe": [
                 {
                     "item_ankama_id": 34728,
@@ -550345,7 +550486,7 @@
                 {
                     "item_ankama_id": 34882,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34888,
@@ -550355,7 +550496,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -550488,6 +550649,19 @@
                     "ignore_int_min": false,
                     "ignore_int_max": true,
                     "formatted": "-1 invocaciones"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia neutral",
+                        "id": 34,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia neutral"
                 }
             ],
             "is_weapon": false,
@@ -550509,7 +550683,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16948-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16948-128.png"
             },
-            "description": "",
+            "description": "[!] « Garde-toi bien de la gloire et des lauriers : la victoire te rendra aveugle. Celle qui ne regarde plus le monde avec un cœur modeste a déjà perdu. »\n\n— Utu",
             "recipe": [
                 {
                     "item_ankama_id": 34729,
@@ -550519,7 +550693,7 @@
                 {
                     "item_ankama_id": 34882,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34888,
@@ -550529,7 +550703,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -550586,8 +550780,8 @@
                     "formatted": "11 a 15 prospección"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 15,
+                    "int_maximum": 18,
                     "type": {
                         "name": "de daño de tierra",
                         "id": 48,
@@ -550596,11 +550790,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 a 15 de daño de tierra"
+                    "formatted": "15 a 18 de daño de tierra"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 15,
+                    "int_maximum": 18,
                     "type": {
                         "name": "de daño de fuego",
                         "id": 61,
@@ -550609,11 +550803,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 a 15 de daño de fuego"
+                    "formatted": "15 a 18 de daño de fuego"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 15,
+                    "int_maximum": 18,
                     "type": {
                         "name": "de daño de agua",
                         "id": 27,
@@ -550622,11 +550816,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 a 15 de daño de agua"
+                    "formatted": "15 a 18 de daño de agua"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 15,
+                    "int_maximum": 18,
                     "type": {
                         "name": "de daño de aire",
                         "id": 47,
@@ -550635,7 +550829,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 a 15 de daños de aire"
+                    "formatted": "15 a 18 de daños de aire"
                 },
                 {
                     "int_minimum": 3,
@@ -550714,6 +550908,19 @@
                     "ignore_int_min": false,
                     "ignore_int_max": true,
                     "formatted": "-1 invocaciones"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia neutral",
+                        "id": 34,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia neutral"
                 }
             ],
             "is_weapon": false,
@@ -550745,7 +550952,7 @@
                 {
                     "item_ankama_id": 34882,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34888,
@@ -550755,7 +550962,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -550773,8 +551000,8 @@
                     "formatted": "351 a 400 vitalidad"
                 },
                 {
-                    "int_minimum": 41,
-                    "int_maximum": 60,
+                    "int_minimum": 51,
+                    "int_maximum": 70,
                     "type": {
                         "name": "potencia (daños generales)",
                         "id": 32,
@@ -550783,7 +551010,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "41 a 60 potencia (daños generales)"
+                    "formatted": "51 a 70 potencia (daños generales)"
                 },
                 {
                     "int_minimum": 41,
@@ -550992,6 +551219,19 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "11 a 15 prospección"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia neutral",
+                        "id": 34,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia neutral"
                 }
             ],
             "is_weapon": true,
@@ -551031,7 +551271,7 @@
                 {
                     "item_ankama_id": 34881,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34887,
@@ -551041,7 +551281,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -551059,8 +551319,8 @@
                     "formatted": "1 PA"
                 },
                 {
-                    "int_minimum": 351,
-                    "int_maximum": 400,
+                    "int_minimum": 401,
+                    "int_maximum": 450,
                     "type": {
                         "name": "vitalidad",
                         "id": 9,
@@ -551069,11 +551329,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "351 a 400 vitalidad"
+                    "formatted": "401 a 450 vitalidad"
                 },
                 {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
+                    "int_minimum": 11,
+                    "int_maximum": 15,
                     "type": {
                         "name": "de daño",
                         "id": 30,
@@ -551082,7 +551342,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "9 a 12 de daño"
+                    "formatted": "11 a 15 de daño"
                 },
                 {
                     "int_minimum": 31,
@@ -551124,17 +551384,17 @@
                     "formatted": "4 a 6% daños distancia"
                 },
                 {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
+                    "int_minimum": 7,
+                    "int_maximum": 10,
                     "type": {
-                        "name": "% resistencia neutral",
-                        "id": 34,
+                        "name": "% resistencia CaC",
+                        "id": 65,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "9 a 12% resistencia neutral"
+                    "formatted": "7 a 10% resistencia CaC"
                 },
                 {
                     "int_minimum": 1,
@@ -551163,8 +551423,8 @@
                     "formatted": "-1 alcance"
                 },
                 {
-                    "int_minimum": 16,
-                    "int_maximum": 25,
+                    "int_minimum": 21,
+                    "int_maximum": 30,
                     "type": {
                         "name": "de resistencia a los críticos",
                         "id": 46,
@@ -551173,20 +551433,20 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "16 a 25 de resistencia a los críticos"
+                    "formatted": "21 a 30 de resistencia a los críticos"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 16,
+                    "int_maximum": 20,
                     "type": {
-                        "name": "de resistencia al empuje",
-                        "id": 70,
+                        "name": "huida",
+                        "id": 59,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 a 15 de resistencia al empuje"
+                    "formatted": "16 a 20 huida"
                 }
             ],
             "is_weapon": false,
@@ -551208,7 +551468,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16929-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16929-128.png"
             },
-            "description": "",
+            "description": "[!] « Ombres célestes, lumières abyssales,\n\nSplendides muses, nocturnes vestales,\n\nQue vos chants consolent les mânes,\n\nQue continue le cycle des âmes. »\n\n\n— chant rituel Bellaphone",
             "recipe": [
                 {
                     "item_ankama_id": 34732,
@@ -551218,7 +551478,7 @@
                 {
                     "item_ankama_id": 34881,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34887,
@@ -551228,7 +551488,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -551246,8 +551526,8 @@
                     "formatted": "401 a 450 vitalidad"
                 },
                 {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
+                    "int_minimum": 11,
+                    "int_maximum": 15,
                     "type": {
                         "name": "de daño",
                         "id": 30,
@@ -551256,7 +551536,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "9 a 12 de daño"
+                    "formatted": "11 a 15 de daño"
                 },
                 {
                     "int_minimum": 31,
@@ -551298,17 +551578,17 @@
                     "formatted": "4 a 6% daños CaC"
                 },
                 {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
+                    "int_minimum": 7,
+                    "int_maximum": 10,
                     "type": {
-                        "name": "% resistencia neutral",
-                        "id": 34,
+                        "name": "% resistencia distancia",
+                        "id": 108,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "9 a 12% resistencia neutral"
+                    "formatted": "7 a 10% resistencia distancia"
                 },
                 {
                     "int_minimum": 1,
@@ -551337,21 +551617,8 @@
                     "formatted": "-1 alcance"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
-                    "type": {
-                        "name": "de resistencia a los críticos",
-                        "id": 46,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "11 a 15 de resistencia a los críticos"
-                },
-                {
-                    "int_minimum": 16,
-                    "int_maximum": 25,
+                    "int_minimum": 21,
+                    "int_maximum": 30,
                     "type": {
                         "name": "de resistencia al empuje",
                         "id": 70,
@@ -551360,7 +551627,20 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "16 a 25 de resistencia al empuje"
+                    "formatted": "21 a 30 de resistencia al empuje"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "huida",
+                        "id": 59,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 20 huida"
                 }
             ],
             "is_weapon": false,
@@ -551392,7 +551672,7 @@
                 {
                     "item_ankama_id": 34881,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34887,
@@ -551402,7 +551682,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -551433,8 +551733,8 @@
                     "formatted": "26 a 27 de robo neutral"
                 },
                 {
-                    "int_minimum": 401,
-                    "int_maximum": 450,
+                    "int_minimum": 351,
+                    "int_maximum": 400,
                     "type": {
                         "name": "vitalidad",
                         "id": 9,
@@ -551443,11 +551743,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "401 a 450 vitalidad"
+                    "formatted": "351 a 400 vitalidad"
                 },
                 {
                     "int_minimum": 9,
-                    "int_maximum": 12,
+                    "int_maximum": 13,
                     "type": {
                         "name": "de daño",
                         "id": 30,
@@ -551456,7 +551756,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "9 a 12 de daño"
+                    "formatted": "9 a 13 de daño"
                 },
                 {
                     "int_minimum": 31,
@@ -551550,8 +551850,8 @@
                     "formatted": "-1 alcance"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 16,
+                    "int_maximum": 20,
                     "type": {
                         "name": "de resistencia a los críticos",
                         "id": 46,
@@ -551560,11 +551860,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 a 15 de resistencia a los críticos"
+                    "formatted": "16 a 20 de resistencia a los críticos"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 16,
+                    "int_maximum": 20,
                     "type": {
                         "name": "de resistencia al empuje",
                         "id": 70,
@@ -551573,7 +551873,20 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 a 15 de resistencia al empuje"
+                    "formatted": "16 a 20 de resistencia al empuje"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "huida",
+                        "id": 59,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 a 20 huida"
                 }
             ],
             "is_weapon": true,
@@ -551613,7 +551926,7 @@
                 {
                     "item_ankama_id": 34883,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34889,
@@ -551623,7 +551936,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -551719,32 +552052,6 @@
                     "formatted": "16 a 20 de cura"
                 },
                 {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
-                    "type": {
-                        "name": "% resistencia al agua",
-                        "id": 17,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "9 a 12% resistencia al agua"
-                },
-                {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% resistencia al fuego",
-                        "id": 37,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% resistencia al fuego"
-                },
-                {
                     "int_minimum": 1,
                     "int_maximum": 0,
                     "type": {
@@ -551769,6 +552076,58 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "351 a 400 vitalidad"
+                },
+                {
+                    "int_minimum": -6,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% resistencia al fuego",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-6% resistencia al fuego"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "% resistencia al agua",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 a 12% resistencia al agua"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia a la tierra",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia a la tierra"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% resistencia al aire",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 a 4% resistencia al aire"
                 }
             ],
             "is_weapon": false,
@@ -551800,7 +552159,7 @@
                 {
                     "item_ankama_id": 34883,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34889,
@@ -551810,7 +552169,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -552000,7 +552379,7 @@
                 {
                     "item_ankama_id": 34883,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34889,
@@ -552010,7 +552389,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -552028,19 +552427,6 @@
                     "formatted": "31 a 37 de daños de agua"
                 },
                 {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% resistencia al fuego",
-                        "id": 37,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% resistencia al fuego"
-                },
-                {
                     "int_minimum": 9,
                     "int_maximum": 12,
                     "type": {
@@ -552052,32 +552438,6 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "9 a 12% resistencia al agua"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% resistencia a la tierra",
-                        "id": 63,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 a 4% resistencia a la tierra"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% resistencia al aire",
-                        "id": 16,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 a 4% resistencia al aire"
                 },
                 {
                     "int_minimum": -15,

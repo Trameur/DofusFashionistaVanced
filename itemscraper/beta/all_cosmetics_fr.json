@@ -114724,17 +114724,17 @@
         },
         {
             "ankama_id": 35010,
-            "name": "Dracorbin",
+            "name": "Dragodinde Bellaphone",
             "type": {
-                "name": "Montilier d'apparat",
-                "id": 59
+                "name": "Monture d'apparat",
+                "id": 241
             },
             "level": 60,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121193-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121193-128.png"
             },
-            "description": "Le Dracorbin a évolué au fil du temps et des croisements, ne gardant que les traits inhérents à ses aptitudes à la course. Il est à l'apogée de ce que doit être un montilier. Il ne lui manque que des rétroviseurs pour voir ceux que vous allez dépasser.",
+            "description": "La Dragodinde Bellaphone a évolué au fil du temps et des croisements, ne gardant que les traits inhérents à ses aptitudes à la course. Elle est à l'apogée de ce que doit être un montilier. Il ne lui manque que des rétroviseurs pour voir ceux que vous allez dépasser.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114806,7 +114806,7 @@
         },
         {
             "ankama_id": 35011,
-            "name": "Draglouton",
+            "name": "Bellamilier",
             "type": {
                 "name": "Familier d'apparat",
                 "id": 24
@@ -114816,7 +114816,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18963-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18963-128.png"
             },
-            "description": "Ne vous fiez pas à son adorable bouille, car le Draglouton est un véritable puits sans fond lorsqu'il s'agit de nourriture. Prévoyez un budget largement supérieur à tous vos autres familiers et quelques séances de sport pour qu'il ne devienne pas énorme.",
+            "description": "Ne vous fiez pas à son adorable bouille, car le Bellamilier est un véritable puits sans fond lorsqu'il s'agit de nourriture. Prévoyez un budget largement supérieur à tous vos autres familiers et quelques séances de sport pour qu'il ne devienne pas énorme.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114831,6 +114831,182 @@
                     "ignore_int_max": true,
                     "formatted": "Échangeable : 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35051,
+            "name": "Costume Festivan",
+            "type": {
+                "name": "Objet vivant",
+                "id": 5
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164333-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164333-128.png"
+            },
+            "description": "Cet objet polymorphe établit une relation de prédateur ou de symbiote avec les costumes inanimés.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35052,
+            "name": "Coiffe Festivan",
+            "type": {
+                "name": "Objet vivant",
+                "id": 5
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16937-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16937-128.png"
+            },
+            "description": "Cet objet polymorphe établit une relation de prédateur ou de symbiote avec les coiffes inanimés.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35053,
+            "name": "Coiffe du Tofu Royal corrompu",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16953-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16953-128.png"
+            },
+            "description": "Créé à partir de plumes de Tofu Royal ayant succombé à l'influence du Nécromonde, ce couvre-chef risque de vous donner une faim insatiable pour... des graines ?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35054,
+            "name": "Coiffe du Chêne Mou corrompu",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16952-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16952-128.png"
+            },
+            "description": "Le Chêne Mou n'ayant pas su résister à la Nécromisation, des fragments de son écorce corrompue ont servi à créer ce casque, façonné à sa nouvelle image.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35058,
+            "name": "Arc du Wa Dunow",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/2101-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/2101-128.png"
+            },
+            "description": "Une seule flèche tirée par cet arc pourrait traverser une galette de part en part dans le sens de la largeur. Sauf si bien-sûr, elle touche la fève, mais la probabilité est tellement faible qu'on ne sait même pas si c'est déjà arrivé.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

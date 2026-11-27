@@ -203114,8 +203114,8 @@
         ],
         "special_spell_en": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
         "special_spell_fr": "{{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
-        "special_spell_es": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
-        "special_spell_pt": "[!] {{spell,31720,1::Dofus de la Source}} :\n• Lorsque le porteur descend sous les 50% de sa vie, il gagne 30% de résistances (2 tours, 1 fois par combat).",
+        "special_spell_es": "{{spell,31720,1::Dofus de la Fuente}}:\n• Cuando el portador tiene menos de un 50% de vida, gana un 30% de resistencias (2 turnos, 1 vez por combate).",
+        "special_spell_pt": "{{spell,31720,1::Dofus da Fonte}}:\n• Quando o lançador fica com menos de 50% da vida, ele ganha 30% de resistências (2 turnos, 1 vez por combate).",
         "special_spell_de": "{{spell,31720,1::Dofus der Quelle}}:\n• Wenn die Lebenspunkte des Trägers auf unter 50 % fallen, erhöhen sich seine Resistenzen um 30 % (2 Runden lang, 1 Mal pro Kampf).",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/23040-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/23040-64.png",
@@ -203512,8 +203512,8 @@
         "ankama_type": "equipment",
         "name_en": "Salamuncher Sari",
         "name_fr": "Sari des Charbosaures",
-        "name_es": "Sari de los salamandros",
-        "name_pt": "Sári dos Salamangues",
+        "name_es": "Sari de carbosaurio",
+        "name_pt": "Sári dos Carvossauros",
         "name_de": "Sari der Kohlensaurier",
         "w_type": "Belt",
         "level": 11,
@@ -203549,8 +203549,8 @@
         "ankama_type": "equipment",
         "name_en": "Salamuncher Seal",
         "name_fr": "Sceau des Charbosaures",
-        "name_es": "Sello de los salamandros",
-        "name_pt": "Selo dos Salamangues",
+        "name_es": "Sello de carbosaurio",
+        "name_pt": "Selo dos Carvossauros",
         "name_de": "Siegel der Kohlensaurier",
         "w_type": "Ring",
         "level": 13,
@@ -203586,8 +203586,8 @@
         "ankama_type": "equipment",
         "name_en": "Salamuncher Hammer",
         "name_fr": "Marteau Charbosaure",
-        "name_es": "Martillo salamandro",
-        "name_pt": "Martelo Salamangue",
+        "name_es": "Martillo de carbosaurio",
+        "name_pt": "Martelo Carvossauro",
         "name_de": "Kohlensaurier-Hammer",
         "w_type": "Hammer",
         "level": 15,
@@ -203598,7 +203598,7 @@
             1
         ],
         "crit_chance": 40,
-        "crit_bonus": 3,
+        "crit_bonus": 5,
         "stats": [
             [
                 51,
@@ -203628,11 +203628,6 @@
             [
                 9,
                 11,
-                "(Fire damage)"
-            ],
-            [
-                4,
-                5,
                 "(Fire damage)"
             ]
         ],
@@ -203780,8 +203775,8 @@
         "ankama_type": "equipment",
         "name_en": "Draconifer Finery",
         "name_fr": "Parure de Mandragon",
-        "name_es": "Adorno de dracornoque",
-        "name_pt": "Adereço de Drakasca",
+        "name_es": "Adorno de mandragón",
+        "name_pt": "Adereço de Mandragão",
         "name_de": "Drachaunen-Ziergewand",
         "w_type": "Amulet",
         "level": 21,
@@ -203827,8 +203822,8 @@
         "ankama_type": "equipment",
         "name_en": "Draconifer Ring",
         "name_fr": "Alliance Mandragon",
-        "name_es": "Alianza de dracornoque",
-        "name_pt": "Aliança Drakasca",
+        "name_es": "Alianza de mandragón",
+        "name_pt": "Aliança Mandragão",
         "name_de": "Drachaunen-Trauring",
         "w_type": "Ring",
         "level": 23,
@@ -203864,8 +203859,8 @@
         "ankama_type": "equipment",
         "name_en": "Draconifer Axe",
         "name_fr": "Hache Mandragon",
-        "name_es": "Hacha de dracornoque",
-        "name_pt": "Machado Drakasca",
+        "name_es": "Hacha de mandragón",
+        "name_pt": "Machado Mandragão",
         "name_de": "Drachaunen-Axt",
         "w_type": "Axe",
         "level": 25,
@@ -204257,8 +204252,8 @@
         "ankama_type": "equipment",
         "name_en": "Sandales Thalassydres",
         "name_fr": "Sandales Thalassydres",
-        "name_es": "Sandales Thalassydres",
-        "name_pt": "Sandales Thalassydres",
+        "name_es": "Sandalias de hídrada",
+        "name_pt": "Sandálias Talassidras",
         "name_de": "Wasserhydra-Sandalen",
         "w_type": "Boots",
         "level": 36,
@@ -204304,8 +204299,8 @@
         "ankama_type": "equipment",
         "name_en": "Seadragon Sari",
         "name_fr": "Sari Thalassydre",
-        "name_es": "Sari de dragocampo",
-        "name_pt": "Sári Dragão-Marinho",
+        "name_es": "Sari de hídrada",
+        "name_pt": "Sári Talassidra",
         "name_de": "Wasserhydra-Sari",
         "w_type": "Belt",
         "level": 38,
@@ -204341,8 +204336,8 @@
         "ankama_type": "equipment",
         "name_en": "Seadragon Lance",
         "name_fr": "Lance Thalassydre",
-        "name_es": "Lanza de dragocampo",
-        "name_pt": "Lança Dragão-Marinho",
+        "name_es": "Lanza de hídrada",
+        "name_pt": "Lança Talassidra",
         "name_de": "Wasserhydra-Wurfspeer",
         "w_type": "Lance",
         "level": 40,
@@ -204438,24 +204433,24 @@
                 "Prospecting"
             ],
             [
-                11,
-                15,
-                "AP Loss Resist"
-            ],
-            [
-                -15,
-                null,
-                "MP Loss Resist"
-            ],
-            [
+                3,
                 4,
-                6,
                 "% Earth Resist"
             ],
             [
+                3,
                 4,
-                6,
                 "% Air Resist"
+            ],
+            [
+                9,
+                12,
+                "% Fire Resist"
+            ],
+            [
+                -6,
+                null,
+                "% Water Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10371-128.png",
@@ -204485,8 +204480,8 @@
                 "Intelligence"
             ],
             [
-                41,
-                60,
+                31,
+                40,
                 "Power"
             ],
             [
@@ -204510,14 +204505,24 @@
                 "Prospecting"
             ],
             [
-                9,
-                12,
-                "% Fire Resist"
+                11,
+                15,
+                "AP Loss Resist"
             ],
             [
-                -6,
+                -15,
                 null,
-                "% Water Resist"
+                "MP Loss Resist"
+            ],
+            [
+                4,
+                6,
+                "% Earth Resist"
+            ],
+            [
+                4,
+                6,
+                "% Air Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-128.png",
@@ -204542,7 +204547,7 @@
             2
         ],
         "crit_chance": 15,
-        "crit_bonus": 7,
+        "crit_bonus": 3,
         "stats": [
             [
                 351,
@@ -204590,28 +204595,18 @@
                 "MP Loss Resist"
             ],
             [
-                3,
-                4,
-                "% Earth Resist"
-            ],
-            [
-                3,
-                4,
-                "% Air Resist"
-            ],
-            [
                 9,
                 12,
                 "% Fire Resist"
             ],
             [
-                -6,
-                null,
-                "% Water Resist"
+                42,
+                47,
+                "(Fire damage)"
             ],
             [
-                55,
-                58,
+                6,
+                7,
                 "(Fire damage)"
             ]
         ],
@@ -204734,14 +204729,24 @@
                 "Critical Hits"
             ],
             [
-                21,
-                30,
+                31,
+                40,
                 "Pushback Damage"
             ],
             [
                 11,
                 15,
                 "Prospecting"
+            ],
+            [
+                3,
+                4,
+                "% Fire Resist"
+            ],
+            [
+                3,
+                4,
+                "% Water Resist"
             ],
             [
                 9,
@@ -204776,12 +204781,12 @@
             1
         ],
         "crit_chance": 20,
-        "crit_bonus": 5,
+        "crit_bonus": 8,
         "stats": [
             [
                 12,
                 14,
-                "(Air damage)"
+                "(Air steal)"
             ],
             [
                 9,
@@ -204834,24 +204839,9 @@
                 "Dodge"
             ],
             [
-                3,
-                4,
-                "% Fire Resist"
-            ],
-            [
-                3,
-                4,
-                "% Water Resist"
-            ],
-            [
                 9,
                 12,
                 "% Air Resist"
-            ],
-            [
-                -6,
-                null,
-                "% Earth Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5112-128.png",
@@ -204916,24 +204906,24 @@
                 "Prospecting"
             ],
             [
-                11,
-                15,
-                "Dodge"
+                9,
+                12,
+                "% Earth Resist"
             ],
             [
-                -15,
-                null,
-                "Lock"
-            ],
-            [
+                3,
                 4,
-                6,
+                "% Water Resist"
+            ],
+            [
+                3,
+                4,
                 "% Fire Resist"
             ],
             [
-                4,
-                6,
-                "% Water Resist"
+                -6,
+                null,
+                "% Air Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1344-128.png",
@@ -204963,8 +204953,8 @@
                 "Strength"
             ],
             [
-                41,
-                60,
+                31,
+                40,
                 "Power"
             ],
             [
@@ -204988,19 +204978,29 @@
                 "Prospecting"
             ],
             [
-                9,
-                12,
-                "% Earth Resist"
-            ],
-            [
-                -6,
-                null,
-                "% Air Resist"
-            ],
-            [
                 201,
                 300,
                 "Initiative"
+            ],
+            [
+                11,
+                15,
+                "Dodge"
+            ],
+            [
+                -15,
+                null,
+                "Lock"
+            ],
+            [
+                4,
+                6,
+                "% Fire Resist"
+            ],
+            [
+                4,
+                6,
+                "% Water Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-128.png",
@@ -205033,24 +205033,9 @@
                 "(Earth damage)"
             ],
             [
-                -6,
-                null,
-                "% Air Resist"
-            ],
-            [
                 9,
                 12,
                 "% Earth Resist"
-            ],
-            [
-                3,
-                4,
-                "% Water Resist"
-            ],
-            [
-                3,
-                4,
-                "% Fire Resist"
             ],
             [
                 -15,
@@ -205163,6 +205148,11 @@
                 -1,
                 null,
                 "Summon"
+            ],
+            [
+                3,
+                4,
+                "% Neutral Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/82609-128.png",
@@ -205202,23 +205192,23 @@
                 "Prospecting"
             ],
             [
-                11,
                 15,
+                18,
                 "Earth Damage"
             ],
             [
-                11,
                 15,
+                18,
                 "Fire Damage"
             ],
             [
-                11,
                 15,
+                18,
                 "Water Damage"
             ],
             [
-                11,
                 15,
+                18,
                 "Air Damage"
             ],
             [
@@ -205250,6 +205240,11 @@
                 -1,
                 null,
                 "Summon"
+            ],
+            [
+                3,
+                4,
+                "% Neutral Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16948-128.png",
@@ -205282,8 +205277,8 @@
                 "Vitality"
             ],
             [
-                41,
-                60,
+                51,
+                70,
                 "Power"
             ],
             [
@@ -205365,6 +205360,11 @@
                 11,
                 15,
                 "Prospecting"
+            ],
+            [
+                3,
+                4,
+                "% Neutral Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6767-128.png",
@@ -205389,13 +205389,13 @@
                 "AP"
             ],
             [
-                351,
-                400,
+                401,
+                450,
                 "Vitality"
             ],
             [
-                9,
-                12,
+                11,
+                15,
                 "Damage"
             ],
             [
@@ -205414,9 +205414,9 @@
                 "% Ranged Damage"
             ],
             [
-                9,
-                12,
-                "% Neutral Resist"
+                7,
+                10,
+                "% Melee Resist"
             ],
             [
                 1,
@@ -205429,14 +205429,14 @@
                 "Range"
             ],
             [
-                16,
-                25,
+                21,
+                30,
                 "Critical Resist"
             ],
             [
-                11,
-                15,
-                "Pushback Resist"
+                16,
+                20,
+                "Dodge"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1346-128.png",
@@ -205461,8 +205461,8 @@
                 "Vitality"
             ],
             [
-                9,
-                12,
+                11,
+                15,
                 "Damage"
             ],
             [
@@ -205481,9 +205481,9 @@
                 "% Melee Damage"
             ],
             [
-                9,
-                12,
-                "% Neutral Resist"
+                7,
+                10,
+                "% Ranged Resist"
             ],
             [
                 1,
@@ -205496,14 +205496,14 @@
                 "Range"
             ],
             [
-                11,
-                15,
-                "Critical Resist"
+                21,
+                30,
+                "Pushback Resist"
             ],
             [
                 16,
-                25,
-                "Pushback Resist"
+                20,
+                "Dodge"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16929-128.png",
@@ -205541,13 +205541,13 @@
                 "(Neutral steal)"
             ],
             [
-                401,
-                450,
+                351,
+                400,
                 "Vitality"
             ],
             [
                 9,
-                12,
+                13,
                 "Damage"
             ],
             [
@@ -205586,14 +205586,19 @@
                 "Range"
             ],
             [
-                11,
-                15,
+                16,
+                20,
                 "Critical Resist"
             ],
             [
-                11,
-                15,
+                16,
+                20,
                 "Pushback Resist"
+            ],
+            [
+                16,
+                20,
+                "Dodge"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/22021-128.png",
@@ -205648,16 +205653,6 @@
                 "Heals"
             ],
             [
-                9,
-                12,
-                "% Water Resist"
-            ],
-            [
-                -6,
-                null,
-                "% Fire Resist"
-            ],
-            [
                 1,
                 null,
                 "MP"
@@ -205666,6 +205661,26 @@
                 351,
                 400,
                 "Vitality"
+            ],
+            [
+                -6,
+                null,
+                "% Fire Resist"
+            ],
+            [
+                9,
+                12,
+                "% Water Resist"
+            ],
+            [
+                3,
+                4,
+                "% Earth Resist"
+            ],
+            [
+                3,
+                4,
+                "% Air Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11391-128.png",
@@ -205775,24 +205790,9 @@
                 "(Water damage)"
             ],
             [
-                -6,
-                null,
-                "% Fire Resist"
-            ],
-            [
                 9,
                 12,
                 "% Water Resist"
-            ],
-            [
-                3,
-                4,
-                "% Earth Resist"
-            ],
-            [
-                3,
-                4,
-                "% Air Resist"
             ],
             [
                 -15,

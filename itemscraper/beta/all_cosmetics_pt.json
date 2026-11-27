@@ -109912,7 +109912,7 @@
         },
         {
             "ankama_id": 34529,
-            "name": "Tofu Traspafrent",
+            "name": "Tofu Traspafrent Gelado",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -109922,7 +109922,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18950-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18950-128.png"
             },
-            "description": "[!] Plus gelé qu'un glaçon, ce tofu semble avoir survécu à bien des apocalypses.",
+            "description": "Mais gelado do que um cubo de gelo, este Tofu parece ter sobrevivido a muitos apocalipses.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -109965,7 +109965,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18949-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18949-128.png"
             },
-            "description": "[!] Prenez garde, cette tofoune a la réputation d'être la bouchère du Tofulailler.",
+            "description": "Cuidado: esta Tofuna tem a fama de ser a açougueira do Tofuleiro.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -113503,7 +113503,7 @@
         },
         {
             "ankama_id": 34949,
-            "name": "[!] Cape de la Démone VIII",
+            "name": "Capa da Demônia VIII",
             "type": {
                 "name": "Capa de aparência",
                 "id": 18
@@ -113546,7 +113546,7 @@
         },
         {
             "ankama_id": 34950,
-            "name": "[!] Bouclier de la Démone VIII",
+            "name": "Escudo da Demônia VIII",
             "type": {
                 "name": "Escudo de aparência",
                 "id": 19
@@ -113589,7 +113589,7 @@
         },
         {
             "ankama_id": 34951,
-            "name": "[!] Costume diapré de la Démone VIII",
+            "name": "Traje Matizado da Demônia VIII",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -113619,7 +113619,7 @@
         },
         {
             "ankama_id": 34952,
-            "name": "[!] Costume de la Démone VIII",
+            "name": "Traje da Demônia VIII",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -113649,7 +113649,7 @@
         },
         {
             "ankama_id": 34953,
-            "name": "[!] Bouclier diapré de la Démone VIII",
+            "name": "Escudo Matizado da Demônia VIII",
             "type": {
                 "name": "Escudo de aparência",
                 "id": 19
@@ -113692,7 +113692,7 @@
         },
         {
             "ankama_id": 34954,
-            "name": "[!] Cape diaprée de la Démone VIII",
+            "name": "Capa Matizada da Demônia VIII",
             "type": {
                 "name": "Capa de aparência",
                 "id": 18
@@ -113735,7 +113735,7 @@
         },
         {
             "ankama_id": 34955,
-            "name": "[!] Cornes diaprées de la Démone VIII",
+            "name": "Chifres Matizados da Demônia VIII",
             "type": {
                 "name": "Chapéu de aparência",
                 "id": 6
@@ -113778,7 +113778,7 @@
         },
         {
             "ankama_id": 34956,
-            "name": "[!] Cornes de la Démone VIII",
+            "name": "Chifres da Demônia VIII",
             "type": {
                 "name": "Chapéu de aparência",
                 "id": 6
@@ -113821,7 +113821,7 @@
         },
         {
             "ankama_id": 34958,
-            "name": "[!] Bellascar Émeraude",
+            "name": "Belandro Esmeralda",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -113831,7 +113831,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18964-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18964-128.png"
             },
-            "description": "[!] Tout l'équipement de ce Bellascar est infusé de la puissance du Dofus Émeraude. Il manie le chakram comme personne.",
+            "description": "Todo o equipamento deste Belandro está imbuído do poder do Dofus Esmeralda. Ele maneja o chakram como ninguém.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -113864,7 +113864,7 @@
         },
         {
             "ankama_id": 34959,
-            "name": "[!] Bellascar Turquoise",
+            "name": "Belandro Turquesa",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -113874,7 +113874,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18965-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18965-128.png"
             },
-            "description": "[!] Tout l'équipement de ce Bellascar est infusé de la puissance du Dofus Turquoise. Il manie la lance comme personne.",
+            "description": "Todo o equipamento deste Belandro está imbuído do poder do Dofus Turquesa. Ele maneja a lança como ninguém.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -113907,7 +113907,7 @@
         },
         {
             "ankama_id": 34960,
-            "name": "[!] Bellascar Pourpre",
+            "name": "Belandro Púrpura",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -113917,7 +113917,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18966-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18966-128.png"
             },
-            "description": "[!] Tout l'équipement de ce Bellascar est infusé de la puissance du Dofus Pourpre. Il manie le marteau comme personne.",
+            "description": "Todo o equipamento deste Belandro está imbuído do poder do Dofus Púrpura. Ele maneja o martelo como ninguém.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -113950,7 +113950,7 @@
         },
         {
             "ankama_id": 34961,
-            "name": "[!] Bellascar Ocre",
+            "name": "Belandro Ocre",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -113960,7 +113960,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18967-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18967-128.png"
             },
-            "description": "[!] Tout l'équipement de ce Bellascar est infusé de la puissance du Dofus Ocre. Il manie la hache comme personne.",
+            "description": "Todo o equipamento deste Belandro está imbuído do poder do Dofus Ocre. Ele maneja o machado como ninguém.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -113993,7 +113993,7 @@
         },
         {
             "ankama_id": 34962,
-            "name": "[!] Bellascar Ivoire",
+            "name": "Belandro Marfim",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -114003,7 +114003,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18968-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18968-128.png"
             },
-            "description": "[!] Tout l'équipement de ce Bellascar est infusé de la puissance du Dofus Ivoire. Il manie l'épée comme personne.",
+            "description": "Todo o equipamento deste Belandro está imbuído do poder do Dofus Marfim. Ele maneja a espada como ninguém.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114036,7 +114036,7 @@
         },
         {
             "ankama_id": 34963,
-            "name": "[!] Bellascar Ebène",
+            "name": "Belandro Ébano",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -114046,7 +114046,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18969-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18969-128.png"
             },
-            "description": "[!] Tout l'équipement de ce Bellascar est infusé de la puissance du Dofus Ebène. Il manie la faux comme personne.",
+            "description": "Todo o equipamento deste Belandro está imbuído do poder do Dofus Ébano. Ele maneja a foice como ninguém.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114079,7 +114079,7 @@
         },
         {
             "ankama_id": 34991,
-            "name": "[!] Diadème de la source",
+            "name": "Diadema da Fonte",
             "type": {
                 "name": "Chapéu de aparência",
                 "id": 6
@@ -114089,7 +114089,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16950-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16950-128.png"
             },
-            "description": "[!] Les pierres qui ornent ce diadème ont été extraites de l'île de la source. Elles semblent dégager une aura apaisante.",
+            "description": "As pedras que ornam este diadema foram extraídas da ilha da Fonte. Elas emitem uma aura reconfortante.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114122,7 +114122,7 @@
         },
         {
             "ankama_id": 34992,
-            "name": "[!] Cape de la source",
+            "name": "Capa da Fonte",
             "type": {
                 "name": "Capa de aparência",
                 "id": 18
@@ -114132,7 +114132,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17722-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17722-128.png"
             },
-            "description": "[!] Cette longue cape, semblait être utilisée par les autochtones lors de cérémonies secrètes. Désormais, c'est devenu un objet de mode.",
+            "description": "Ao que parece, esta capa comprida era usada pelos nativos em cerimônias secretas. Agora é acessório da moda.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114165,7 +114165,7 @@
         },
         {
             "ankama_id": 34993,
-            "name": "[!] Bouclier de la source",
+            "name": "Escudo da Fonte",
             "type": {
                 "name": "Escudo de aparência",
                 "id": 19
@@ -114175,7 +114175,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82623-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82623-128.png"
             },
-            "description": "[!] Ce bouclier est purement décoratif et n'a aucune vocation à protéger son porteur. Il est étrangement enrobé d'une douce fumée dont l'odeur rappelle la nature.",
+            "description": "Este escudo é meramente decorativo e não tem a menor vocação para proteger o portador. Ele é cercado por uma fumaça doce e estranha, com cheirinho de natureza.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114208,7 +114208,7 @@
         },
         {
             "ankama_id": 34994,
-            "name": "[!] Costume de la source",
+            "name": "Traje da Fonte",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -114218,7 +114218,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164341-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164341-128.png"
             },
-            "description": "[!] L'inspiration de ce costume provient directement des origines de la source, un style qui a su se développer indépendamment du reste du monde, mais qui semble pourtant en avoir suivi les codes.",
+            "description": "Este traje é inspirado diretamente nas origens da Fonte. Um estilo que se desenvolveu de forma independente do resto do mundo, mas que parece ter seguido seus códigos.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114238,7 +114238,7 @@
         },
         {
             "ankama_id": 34995,
-            "name": "[!] Groffin",
+            "name": "Grofi",
             "type": {
                 "name": "Montascote de aparência",
                 "id": 59
@@ -114248,7 +114248,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121195-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121195-128.png"
             },
-            "description": "[!] On dit qu'à l'apogée de l'île de la source, un Groffin majestueux montait la garde et protégeait le ciel des attaques. C'est une bête distinguée et pourvue d'un honneur sans faille qui fera un montilier dévoué.",
+            "description": "Dizem que, no auge da ilha da Fonte, um Grofi majestoso montava guarda e protegia o céu dos ataques. É um animal muito distinto, com um senso de honra irredutível que fará dele uma montascote leal.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114320,7 +114320,7 @@
         },
         {
             "ankama_id": 34996,
-            "name": "[!] Brok",
+            "name": "Brok",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -114330,7 +114330,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18970-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18970-128.png"
             },
-            "description": "[!] Le brok fait parte du genre de créature dont l'évolution n'a gardé que les meilleurs traits. La force d'un Crocodaille et l'espièglerie d'un Bwak, c'est un compagnon farceur mais adorable.",
+            "description": "O Brok é aquele tipo de criatura em que a evolução só preservou as melhores características. Forte como o Crocodyl e esperto como o Bwak, é um companheiro maroto, mas adorável.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114363,7 +114363,7 @@
         },
         {
             "ankama_id": 34998,
-            "name": "[!] Cache-oreilles Glucolique",
+            "name": "Protetor de Ouvido Glucólico",
             "type": {
                 "name": "Chapéu de aparência",
                 "id": 6
@@ -114373,7 +114373,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16933-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16933-128.png"
             },
-            "description": "[!] Le sucre qui fond au contact des oreilles permet à cette coiffe de toujours tenir en place, même pendant la folie des courses de Nowel.",
+            "description": "O açúcar que derrete em contato com as orelhas mantém este chapéu sempre no lugar, mesmo durante a loucura das compras de Nataw.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114406,7 +114406,7 @@
         },
         {
             "ankama_id": 34999,
-            "name": "[!] Cape Glucolique",
+            "name": "Capa Glucólica",
             "type": {
                 "name": "Capa de aparência",
                 "id": 18
@@ -114416,7 +114416,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17715-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17715-128.png"
             },
-            "description": "[!] Les cannes à sucre qui maintiennent cette cape lui apportent une bonne tenue en toute circonstance tout en la rendant extrêmement fragile. Il serait peut-être intéressant d'avoir un petit lutin qui la porte derrière vous.",
+            "description": "As bengalas de açúcar que sustentam esta capa a mantêm sempre no lugar, mas a tornam extremamente frágil. Talvez fosse interessante ter um duendezinho para segurá-la atrás de você.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114449,7 +114449,7 @@
         },
         {
             "ankama_id": 35000,
-            "name": "[!] Bouclier Glucolique",
+            "name": "Escudo Glucólico",
             "type": {
                 "name": "Escudo de aparência",
                 "id": 19
@@ -114459,7 +114459,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82614-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82614-128.png"
             },
-            "description": "[!] La structure de ce bouclier est faite en sucre soufflé, ce qui le rend léger et maniable. Cependant, il faudra veiller à le stocker dans un endroit sûr, sous peine de voir débarquer une ribambelle d'insectes.",
+            "description": "A estrutura deste escudo é feita de açúcar soprado, o que o torna leve e fácil de manusear. No entanto, guarde em um local seguro para não ver chegar uma fila de insetos.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114492,7 +114492,7 @@
         },
         {
             "ankama_id": 35001,
-            "name": "[!] Costume Glucolique",
+            "name": "Traje Glucólico",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -114502,7 +114502,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164328-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164328-128.png"
             },
-            "description": "[!] Alors que la tendance est plutôt aux pulls de Nowel moches, vous avez décidé de prendre le contre-pied et de porter ce magnifique ouvrage en laine de Bouftou. Il tient chaud en hiver et ne sent presque pas le foin.",
+            "description": "Embora os suéteres de Nataw feiosos sejam mais tendência, você resolveu nadar contra a maré e vestir esta obra magnífica em lã de Papatudo. Ele esquenta no inverno e quase não tem cheiro de feno.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114522,7 +114522,7 @@
         },
         {
             "ankama_id": 35005,
-            "name": "[!] Souvenir de Snowy",
+            "name": "Lembrança de Snowy",
             "type": {
                 "name": "Chapéu de aparência",
                 "id": 6
@@ -114532,7 +114532,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16949-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16949-128.png"
             },
-            "description": "[!] En relevant les défis de Snowy, vous avez su prouver votre valeur à ses yeux. Cette coiffe est le symbole de votre victoire et vous rappellera pour toujours que vous avez su triompher.",
+            "description": "Ao superar os desafios de Snowy, você conseguiu provar seu valor para ele. Este chapéu é símbolo da sua vitória e recordará para sempre o seu triunfo.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114565,7 +114565,7 @@
         },
         {
             "ankama_id": 35006,
-            "name": "[!] Perruque Bellaphone",
+            "name": "Peruca Beléfone",
             "type": {
                 "name": "Chapéu de aparência",
                 "id": 6
@@ -114575,7 +114575,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16944-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16944-128.png"
             },
-            "description": "[!] Vous avez toujours rêvé d'être proche d'un dragon. À défaut de l'être vraiment, vous pouvez le prétendre en enfilant cette coiffe qui vous fera ressembler en tout point avec un Bellaphone.",
+            "description": "Você sempre quis se aproximar de um dragão. Enquanto não consegue, você pode fingir com este chapéu, que vai deixar você a cara de um Beléfone.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114608,7 +114608,7 @@
         },
         {
             "ankama_id": 35007,
-            "name": "[!] Cape Bellaphone",
+            "name": "Capa Beléfone",
             "type": {
                 "name": "Capa de aparência",
                 "id": 18
@@ -114618,7 +114618,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17719-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17719-128.png"
             },
-            "description": "[!] Le tissu qui a été utilisé pour tisser cette cape provient directement de l'île de la Source. Il semble réagir aux vibrations émises par la puissance des Dofus.",
+            "description": "O tecido utilizado na confecção desta capa vem diretamente da ilha da Fonte. Ele parece reagir às vibrações emitidas pelo poder dos Dofus.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114651,7 +114651,7 @@
         },
         {
             "ankama_id": 35008,
-            "name": "[!] Bouclier Bellaphone",
+            "name": "Escudo Beléfone",
             "type": {
                 "name": "Escudo de aparência",
                 "id": 19
@@ -114661,7 +114661,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82618-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82618-128.png"
             },
-            "description": "[!] Ce bouclier a été renforcé à l'aide d'écailles de dragon, perdues naturellement et retrouvées dans la nature. Il dispose donc d'une résistance accrue, mais est aussi plus lourd à porter.",
+            "description": "Este escudo foi reforçado com escamas de dragão, perdidas naturalmente e encontradas pelo mundo. Assim, ele é especialmente resistente, mas também mais pesado.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114694,7 +114694,7 @@
         },
         {
             "ankama_id": 35009,
-            "name": "[!] Ailes Bellaphone",
+            "name": "Asas Beléfones",
             "type": {
                 "name": "Asas",
                 "id": 218
@@ -114704,7 +114704,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164338-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164338-128.png"
             },
-            "description": "[!] Vous ne pourrez pas voler avec ces ailes. Sauter un peu plus haut à la limite, mais c'est surtout pour avoir l'air cool que vous les portez. N'est pas un dragon qui veut.",
+            "description": "Você não vai conseguir voar com estas asas. No máximo pular um pouco mais alto, mas é sobretudo para ficar com um ar mais estiloso que você as porta. Ser dragão não é para qualquer um.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114724,17 +114724,17 @@
         },
         {
             "ankama_id": 35010,
-            "name": "[!] Dracorbin",
+            "name": "Dragoperu Beléfone",
             "type": {
-                "name": "Montascote de aparência",
-                "id": 59
+                "name": "Montaria de aparência",
+                "id": 241
             },
             "level": 60,
             "image_urls": {
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121193-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121193-128.png"
             },
-            "description": "[!] Le Dracorbin a évolué au fil du temps et des croisements, ne gardant que les traits inhérents à ses aptitudes à la course. Il est à l'apogée de ce que doit être un montilier. Il ne lui manque que des rétroviseurs pour voir ceux que vous allez dépasser.",
+            "description": "O Dragoperu Beléfone evoluiu ao longo do tempo e dos cruzamentos, mantendo apenas as características inerentes à sua aptidão para a corrida. É o ápice das montascotes. Só ficou faltando um retrovisor para você ver quem vai deixar comendo poeira.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114806,7 +114806,7 @@
         },
         {
             "ankama_id": 35011,
-            "name": "[!] Draglouton",
+            "name": "Belescote",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -114816,7 +114816,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18963-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18963-128.png"
             },
-            "description": "[!] Ne vous fiez pas à son adorable bouille, car le Draglouton est un véritable puits sans fond lorsqu'il s'agit de nourriture. Prévoyez un budget largement supérieur à tous vos autres familiers et quelques séances de sport pour qu'il ne devienne pas énorme.",
+            "description": "Não se deixe enganar por essa carinha: o Belescote é um verdadeiro saco sem fundo na hora de comer. Organize um orçamento bem maior do que para as outras mascotes, bem como atividades físicas para ele não ficar enorme.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -114831,6 +114831,182 @@
                     "ignore_int_max": true,
                     "formatted": "Trocável: 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35051,
+            "name": "[!] Costume Festivan",
+            "type": {
+                "name": "Itens vivos",
+                "id": 5
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164333-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164333-128.png"
+            },
+            "description": "[!] Cet objet polymorphe établit une relation de prédateur ou de symbiote avec les costumes inanimés.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35052,
+            "name": "[!] Coiffe Festivan",
+            "type": {
+                "name": "Itens vivos",
+                "id": 5
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16937-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16937-128.png"
+            },
+            "description": "[!] Cet objet polymorphe établit une relation de prédateur ou de symbiote avec les coiffes inanimés.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35053,
+            "name": "[!] Coiffe du Tofu Royal corrompu",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16953-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16953-128.png"
+            },
+            "description": "[!] Créé à partir de plumes de Tofu Royal ayant succombé à l'influence du Nécromonde, ce couvre-chef risque de vous donner une faim insatiable pour... des graines ?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35054,
+            "name": "[!] Coiffe du Chêne Mou corrompu",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16952-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16952-128.png"
+            },
+            "description": "[!] Le Chêne Mou n'ayant pas su résister à la Nécromisation, des fragments de son écorce corrompue ont servi à créer ce casque, façonné à sa nouvelle image.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35058,
+            "name": "[!] Arc du Wa Dunow",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/2101-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/2101-128.png"
+            },
+            "description": "[!] Une seule flèche tirée par cet arc pourrait traverser une galette de part en part dans le sens de la largeur. Sauf si bien-sûr, elle touche la fève, mais la probabilité est tellement faible qu'on ne sait même pas si c'est déjà arrivé.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

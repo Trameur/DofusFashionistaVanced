@@ -81031,7 +81031,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24544-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24544-128.png"
             },
-            "description": "",
+            "description": "Les braises qui recouvrent les Charbosaures continuent de se consumer longtemps après leur trépas.",
             "pods": 1
         },
         {
@@ -81046,7 +81046,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24546-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24546-128.png"
             },
-            "description": "",
+            "description": "Il semblerait que les Mandragons continuent de fleurir même après leur mort. Certains de leurs bourgeons n'éclosent d'ailleurs qu'à cette occasion.",
             "pods": 1
         },
         {
@@ -81061,7 +81061,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24545-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24545-128.png"
             },
-            "description": "",
+            "description": "Il est déconseillé de prêter l'oreille aux murmures qui s'en échappent. Certains secrets auraient mieux fait de se perdre dans le vent.",
             "pods": 1
         },
         {
@@ -81076,7 +81076,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24548-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24548-128.png"
             },
-            "description": "Cette substance est ce qu'il semble rester d'une ombrâme. On peut en retrouver une quantité immense au fond du puits des âmes.",
+            "description": "Cette substance est ce qu'il semble rester d'une Ombrâme. On peut en retrouver une quantité immense au fond du Puits des Âmes.",
             "pods": 1
         },
         {
@@ -81091,7 +81091,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24547-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24547-128.png"
             },
-            "description": "",
+            "description": "Selon l'angle sous lequel on l'observe, sa surface laisse entrevoir des couleurs insoupçonnées. Il serait vain de chercher à toutes les répertorier.",
             "pods": 1
         },
         {
@@ -81106,7 +81106,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24549-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24549-128.png"
             },
-            "description": "",
+            "description": "Il est des choses que les profondeurs ne restituent jamais sans raison.",
             "pods": 1
         },
         {
@@ -81121,7 +81121,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24550-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24550-128.png"
             },
-            "description": "",
+            "description": "La violence est parfois le dernier rempart de la bienveillance.",
             "pods": 2
         },
         {
@@ -81136,7 +81136,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24552-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24552-128.png"
             },
-            "description": "",
+            "description": "Ceux qui portent la mémoire du monde ploient sous le poids de ses fautes.",
             "pods": 2
         },
         {
@@ -81151,7 +81151,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24551-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24551-128.png"
             },
-            "description": "",
+            "description": "À force de parcourir le monde, on finit par n'appartenir à aucun lieu.",
             "pods": 2
         },
         {
@@ -81181,7 +81181,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24553-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24553-128.png"
             },
-            "description": "",
+            "description": "Douter de ses convictions, c'est renoncer à la justice.",
             "pods": 2
         },
         {
@@ -81196,7 +81196,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24555-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24555-128.png"
             },
-            "description": "",
+            "description": "Nul ne devrait aspirer à gouverner avant d'avoir appris à renoncer.",
             "pods": 2
         },
         {

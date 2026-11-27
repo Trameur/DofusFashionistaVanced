@@ -653,7 +653,7 @@ DAMAGE_SPELLS = {
             [['27-30', '30-34']],
             [['32-36', '36-41']],
             [EARTH],
-        ), is_linked=(2, 'Sirocco'), casting={'ap': [3, 3], 'per_turn': [1, 1], 'crit': [10, 10]}, spell_id=33207),
+        ), is_linked=(2, 'Sirocco'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'crit': [10, 10]}, spell_id=33207),
         Spell('Earth Pillars', [1], Effects(
             [['43-47'], ['43-47'], ['43-47'], ['43-47']],
             [['52-56'], ['52-56'], ['52-56'], ['52-56']],
@@ -781,7 +781,7 @@ DAMAGE_SPELLS = {
             [['22-25', '28-31']],
             [EARTH],
             steals=[True],
-        ), is_linked=(2, 'Zephyr'), casting={'ap': [3, 3], 'per_turn': [1, 1], 'crit': [10, 10]}, spell_id=33313),
+        ), is_linked=(2, 'Zephyr'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'crit': [10, 10]}, spell_id=33313),
         Spell('Barchan', [110, 177], Effects(
             [['26-29', '32-36'], ['26-29', '32-36'], ['26-29', '32-36']],
             [['31-35', '38-43'], ['31-35', '38-43'], ['31-35', '38-43']],
@@ -883,7 +883,7 @@ DAMAGE_SPELLS = {
             [['9-11', '12-14', '15-17']],
             [['12-14', '15-17', '18-20']],
             [EARTH],
-        ), stacks=2, is_linked=(1, 'Squall'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 4], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=33204),
+        ), stacks=2, is_linked=(1, 'Squall'), casting={'ap': [2, 2, 2], 'per_turn': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=33204),
         Spell('Azure Lance', [50, 117, 184], Effects(
             [['16-18', '22-25', '26-29'], ['5-7', '7-9', '8-10']],
             [['20-22', '27-30', '31-35'], ['8-10', '10-12', '11-13']],

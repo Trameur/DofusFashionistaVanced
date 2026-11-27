@@ -73415,7 +73415,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/126026-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/126026-128.png"
             },
-            "description": "[!] Cette stèle comportant un poème écrit en deux langues peut vous permettre de déchiffrer l'écriture Bellaphone. Toutes ces inscriptions n'étaient pas de la simple décoration, elles avaient une vraie signification !",
+            "description": "Essa estela que contém um poema escrito em duas línguas possibilitou que você decifrasse a escrita beléfone. Essas inscrições todas não eram meramente decorativas, elas tinham um significado de fato!",
             "pods": 0
         },
         {
@@ -73789,7 +73789,7 @@
         },
         {
             "ankama_id": 34975,
-            "name": "[!] Cœur du golem pourpre",
+            "name": "Coração do Golem Púrpura",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73799,12 +73799,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136169-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136169-128.png"
             },
-            "description": "[!] Ce morceau de coquille de Dofus taillé pourrait être la source d'énergie du golem. Il vous semble sentir une présence à l'intérieur...",
+            "description": "Este pedaço entalhado de casca de Dofus pode ser a fonte da energia do golem. Você tem a impressão de sentir uma presença no interior...",
             "pods": 0
         },
         {
             "ankama_id": 34976,
-            "name": "[!] Cœur du golem émeraude",
+            "name": "Coração do Golem Esmeralda",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73814,12 +73814,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136170-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136170-128.png"
             },
-            "description": "[!] Ce morceau de coquille de Dofus taillé pourrait être la source d'énergie du golem. Il vous semble sentir une présence à l'intérieur...",
+            "description": "Este pedaço entalhado de casca de Dofus pode ser a fonte da energia do golem. Você tem a impressão de sentir uma presença no interior...",
             "pods": 0
         },
         {
             "ankama_id": 34977,
-            "name": "[!] Cœur du golem ocre",
+            "name": "Coração do Golem Ocre",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73829,12 +73829,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136171-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136171-128.png"
             },
-            "description": "[!] Ce morceau de coquille de Dofus taillé pourrait être la source d'énergie du golem. Il vous semble sentir une présence à l'intérieur...",
+            "description": "Este pedaço entalhado de casca de Dofus pode ser a fonte da energia do golem. Você tem a impressão de sentir uma presença no interior...",
             "pods": 0
         },
         {
             "ankama_id": 34978,
-            "name": "[!] Cœur du golem ébène",
+            "name": "Coração do Golem Ébano",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73844,12 +73844,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136173-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136173-128.png"
             },
-            "description": "[!] Ce morceau de coquille de Dofus taillé pourrait être la source d'énergie du golem. Il vous semble sentir une présence à l'intérieur...",
+            "description": "Este pedaço entalhado de casca de Dofus pode ser a fonte da energia do golem. Você tem a impressão de sentir uma presença no interior...",
             "pods": 0
         },
         {
             "ankama_id": 34979,
-            "name": "[!] Cœur du golem ivoire",
+            "name": "Coração do Golem Marfim",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73859,12 +73859,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136172-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136172-128.png"
             },
-            "description": "[!] Ce morceau de coquille de Dofus taillé pourrait être la source d'énergie du golem. Il vous semble sentir une présence à l'intérieur...",
+            "description": "Este pedaço entalhado de casca de Dofus pode ser a fonte da energia do golem. Você tem a impressão de sentir uma presença no interior...",
             "pods": 0
         },
         {
             "ankama_id": 34980,
-            "name": "[!] Cœur du golem turquoise",
+            "name": "Coração do Golem Turquesa",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73874,12 +73874,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136174-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136174-128.png"
             },
-            "description": "[!] Ce morceau de coquille de Dofus taillé pourrait être la source d'énergie du golem. Il vous semble sentir une présence à l'intérieur...",
+            "description": "Este pedaço entalhado de casca de Dofus pode ser a fonte da energia do golem. Você tem a impressão de sentir uma presença no interior...",
             "pods": 0
         },
         {
             "ankama_id": 34985,
-            "name": "[!] Morceau de coquille pourpre",
+            "name": "Pedaço de Casca Púrpura",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73889,12 +73889,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111758-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111758-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Suite à votre affrontement avec le gardien, ce morceau de coquille s'est infusé d'un pouvoir élémentaire.",
             "pods": 0
         },
         {
             "ankama_id": 34986,
-            "name": "[!] Morceau de coquille émeraude",
+            "name": "Pedaço de Casca Esmeralda",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73904,12 +73904,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111760-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111760-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Suite à votre affrontement avec le gardien, ce morceau de coquille s'est infusé d'un pouvoir élémentaire.",
             "pods": 0
         },
         {
             "ankama_id": 34987,
-            "name": "[!] Morceau de coquille ocre",
+            "name": "Pedaço de Casca Ocre",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73919,12 +73919,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111761-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111761-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Suite à votre affrontement avec le gardien, ce morceau de coquille s'est infusé d'un pouvoir élémentaire.",
             "pods": 0
         },
         {
             "ankama_id": 34988,
-            "name": "[!] Morceau de coquille ébène",
+            "name": "Pedaço de Casca Ébano",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73934,12 +73934,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111763-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111763-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Suite à votre affrontement avec le gardien, ce morceau de coquille s'est infusé d'un pouvoir élémentaire.",
             "pods": 0
         },
         {
             "ankama_id": 34989,
-            "name": "[!] Morceau de coquille ivoire",
+            "name": "Pedaço de Casca Marfim",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73949,12 +73949,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111762-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111762-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Suite à votre affrontement avec le gardien, ce morceau de coquille s'est infusé d'un pouvoir élémentaire.",
             "pods": 0
         },
         {
             "ankama_id": 34990,
-            "name": "[!] Morceau de coquille turquoise",
+            "name": "Pedaço de Casca Turquesa",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73964,12 +73964,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111759-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111759-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Le dernier morceau de coquille manquant à votre collection irradie de l'énergie spirituelle combinée des cinq sœurs.",
             "pods": 0
         },
         {
             "ankama_id": 35014,
-            "name": "[!] Ocarina des flots",
+            "name": "Ocarina das Ondas",
             "type": {
                 "name": "A Fonte",
                 "id": 261
@@ -73979,11 +73979,11 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136162-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136162-128.png"
             },
-            "description": "[!] Un instrument enchanté par Tiama permettant à son porteur de jouer une mélodie le transportant vers un endroit prédéfini.",
+            "description": "Instrumento encantado por Tiama que permite ao portador tocar uma melodia que o transporta para um local predeterminado.",
             "effects": [
                 {
                     "int_minimum": 1,
-                    "int_maximum": 1,
+                    "int_maximum": 0,
                     "type": {
                         "name": "Ganha x",
                         "id": 260,
@@ -73991,8 +73991,21 @@
                         "is_active": false
                     },
                     "ignore_int_min": false,
-                    "ignore_int_max": false,
+                    "ignore_int_max": true,
                     "formatted": "Ganha x1 2246"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Teletransporta",
+                        "id": 53,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Teletransporta"
                 }
             ],
             "pods": 0
@@ -74024,7 +74037,131 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
-            "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.\n\n(Double-cliquez sur la pensée quand vous aurez rassemblé les six pour découvrir la localisation de la cachette)",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Zona diferente de: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Zona diferente de: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Zona diferente de: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Posiciona a bússola",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Posiciona a bússola"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74040,6 +74177,130 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
             "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Zona diferente de: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Zona diferente de: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Zona diferente de: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Posiciona a bússola",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Posiciona a bússola"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74055,6 +74316,130 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
             "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Zona diferente de: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Zona diferente de: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Zona diferente de: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Posiciona a bússola",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Posiciona a bússola"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74070,6 +74455,130 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
             "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Zona diferente de: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Zona diferente de: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Zona diferente de: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Posiciona a bússola",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Posiciona a bússola"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74085,6 +74594,130 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
             "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Zona diferente de: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Zona diferente de: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Zona diferente de: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Posiciona a bússola",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Posiciona a bússola"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74100,6 +74733,130 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
             "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Zona diferente de: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Zona diferente de: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Zona diferente de: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Zona diferente de: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Zona diferente de: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Posiciona a bússola",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Posiciona a bússola"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "O que tem aí?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "O que tem aí?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74115,6 +74872,21 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/15270-128.png"
             },
             "description": "[!] Signe de la corruption qui ronge le gardien de la Source, cette flamme est aussi noire que l'âme d'un shushu ou que l'ombre d'un Obscuranti.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 35050,
+            "name": "[!] Énergie des sœurs",
+            "type": {
+                "name": "A Fonte",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164067-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164067-128.png"
+            },
+            "description": "[!] Les cinq sœurs de Tiama ont rassemblé leur énergie spirituelle pour vous permettre de plonger dans les Profondeurs Turquoise. Vous saluez ce sacrifice, tout en ressentant une certaine appréhension. Tout repose maintenant sur vos épaules...",
             "pods": 0
         }
     ]

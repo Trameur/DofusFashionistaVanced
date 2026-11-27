@@ -73889,7 +73889,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111758-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111758-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Suite à votre affrontement avec le gardien, ce morceau de coquille s'est infusé d'un pouvoir élémentaire.",
             "pods": 0
         },
         {
@@ -73904,7 +73904,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111760-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111760-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Suite à votre affrontement avec le gardien, ce morceau de coquille s'est infusé d'un pouvoir élémentaire.",
             "pods": 0
         },
         {
@@ -73919,7 +73919,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111761-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111761-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Suite à votre affrontement avec le gardien, ce morceau de coquille s'est infusé d'un pouvoir élémentaire.",
             "pods": 0
         },
         {
@@ -73934,7 +73934,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111763-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111763-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Suite à votre affrontement avec le gardien, ce morceau de coquille s'est infusé d'un pouvoir élémentaire.",
             "pods": 0
         },
         {
@@ -73949,7 +73949,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111762-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111762-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Suite à votre affrontement avec le gardien, ce morceau de coquille s'est infusé d'un pouvoir élémentaire.",
             "pods": 0
         },
         {
@@ -73964,7 +73964,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/111759-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/111759-128.png"
             },
-            "description": "[!] TO DO",
+            "description": "[!] Le dernier morceau de coquille manquant à votre collection irradie de l'énergie spirituelle combinée des cinq sœurs.",
             "pods": 0
         },
         {
@@ -73983,7 +73983,7 @@
             "effects": [
                 {
                     "int_minimum": 1,
-                    "int_maximum": 1,
+                    "int_maximum": 0,
                     "type": {
                         "name": "Gainsx",
                         "id": 260,
@@ -73991,8 +73991,21 @@
                         "is_active": false
                     },
                     "ignore_int_min": false,
-                    "ignore_int_max": false,
+                    "ignore_int_max": true,
                     "formatted": "Gains 1x 2246"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Teleport",
+                        "id": 53,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Teleport"
                 }
             ],
             "pods": 0
@@ -74024,7 +74037,131 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
-            "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.\n\n(Double-cliquez sur la pensée quand vous aurez rassemblé les six pour découvrir la localisation de la cachette)",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Different area to: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Different area to: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Different area to: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Positions the compass",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Positions the compass"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74040,6 +74177,130 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
             "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Different area to: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Different area to: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Different area to: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Positions the compass",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Positions the compass"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74055,6 +74316,130 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
             "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Different area to: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Different area to: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Different area to: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Positions the compass",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Positions the compass"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74070,6 +74455,130 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
             "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Different area to: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Different area to: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Different area to: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Positions the compass",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Positions the compass"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74085,6 +74594,130 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
             "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Different area to: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Different area to: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Different area to: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Positions the compass",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Positions the compass"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74100,6 +74733,130 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/29002-128.png"
             },
             "description": "[!] Vous croyez entendre des mots chuchotés par une voix lointaine, dans une langue si ancienne qu'il n'en subsiste qu'un murmure.",
+            "conditions": {
+                "is_operand": false,
+                "relation": "and",
+                "children": [
+                    {
+                        "is_operand": false,
+                        "relation": "and",
+                        "children": [
+                            {
+                                "is_operand": false,
+                                "relation": "and",
+                                "children": [
+                                    {
+                                        "is_operand": false,
+                                        "relation": "and",
+                                        "children": [
+                                            {
+                                                "is_operand": false,
+                                                "relation": "and",
+                                                "children": [
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35021,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    },
+                                                    {
+                                                        "condition": {
+                                                            "operator": "=",
+                                                            "int_value": 35022,
+                                                            "element": {
+                                                                "name": "Different area to: {0}",
+                                                                "id": 216
+                                                            }
+                                                        },
+                                                        "is_operand": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "condition": {
+                                                    "operator": "=",
+                                                    "int_value": 35023,
+                                                    "element": {
+                                                        "name": "Different area to: {0}",
+                                                        "id": 216
+                                                    }
+                                                },
+                                                "is_operand": true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "condition": {
+                                            "operator": "=",
+                                            "int_value": 35024,
+                                            "element": {
+                                                "name": "Different area to: {0}",
+                                                "id": 216
+                                            }
+                                        },
+                                        "is_operand": true
+                                    }
+                                ]
+                            },
+                            {
+                                "condition": {
+                                    "operator": "=",
+                                    "int_value": 35025,
+                                    "element": {
+                                        "name": "Different area to: {0}",
+                                        "id": 216
+                                    }
+                                },
+                                "is_operand": true
+                            }
+                        ]
+                    },
+                    {
+                        "condition": {
+                            "operator": "=",
+                            "int_value": 35026,
+                            "element": {
+                                "name": "Different area to: {0}",
+                                "id": 216
+                            }
+                        },
+                        "is_operand": true
+                    }
+                ]
+            },
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Positions the compass",
+                        "id": 74,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Positions the compass"
+                },
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "What's inside?",
+                        "id": 196,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "What's inside?"
+                }
+            ],
             "pods": 0
         },
         {
@@ -74115,6 +74872,21 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/15270-128.png"
             },
             "description": "[!] Signe de la corruption qui ronge le gardien de la Source, cette flamme est aussi noire que l'âme d'un shushu ou que l'ombre d'un Obscuranti.",
+            "pods": 0
+        },
+        {
+            "ankama_id": 35050,
+            "name": "[!] Énergie des sœurs",
+            "type": {
+                "name": "The Source",
+                "id": 261
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164067-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164067-128.png"
+            },
+            "description": "[!] Les cinq sœurs de Tiama ont rassemblé leur énergie spirituelle pour vous permettre de plonger dans les Profondeurs Turquoise. Vous saluez ce sacrifice, tout en ressentant une certaine appréhension. Tout repose maintenant sur vos épaules...",
             "pods": 0
         }
     ]

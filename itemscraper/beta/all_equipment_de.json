@@ -546929,19 +546929,6 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "9 bis 11 Feuerschaden"
-                },
-                {
-                    "int_minimum": 4,
-                    "int_maximum": 5,
-                    "type": {
-                        "name": "Feuerschaden",
-                        "id": 198,
-                        "is_meta": false,
-                        "is_active": true
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "4 bis 5 Feuerschaden"
                 }
             ],
             "is_weapon": true,
@@ -546951,7 +546938,7 @@
                 "name": "Kohlensaurier-Set"
             },
             "critical_hit_probability": 40,
-            "critical_hit_bonus": 3,
+            "critical_hit_bonus": 5,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -548521,7 +548508,7 @@
                 {
                     "item_ankama_id": 34878,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34884,
@@ -548531,7 +548518,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -548640,6 +548647,213 @@
                     "formatted": "11 bis +15 Filzpunkte"
                 },
                 {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Erdresistenz",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis +4% Erdresistenz"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Luftresistenz",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 4% Luftresistenz"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "% Feuerresistenz",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis 12% Feuerresistenz"
+                },
+                {
+                    "int_minimum": -6,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% Wasserresistenz",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-6 % Wasserresistenz"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1119,
+                "name": "Guiras Asche"
+            }
+        },
+        {
+            "ankama_id": 34738,
+            "name": "Guiras Siegel",
+            "type": {
+                "name": "Ring",
+                "id": 17
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-128.png"
+            },
+            "description": "[!] Chacun tourne en réalités,\nAutant qu'il peut, ses propres songes :\nL'homme est de glace aux vérités ;\nIl est de feu pour les mensonges.",
+            "recipe": [
+                {
+                    "item_ankama_id": 34720,
+                    "item_subtype": "equipment",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 34878,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34890,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 201,
+                    "int_maximum": 250,
+                    "type": {
+                        "name": "Vitalität",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "201 bis +250 Vitalität"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Intelligenz",
+                        "id": 13,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 bis +40 Intelligenz"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Schlagkraft",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 bis +40 Schlagkraft"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 25,
+                    "type": {
+                        "name": "Weisheit",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis +25 Weisheit"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% KT",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 4% KT"
+                },
+                {
+                    "int_minimum": 11,
+                    "int_maximum": 15,
+                    "type": {
+                        "name": "Kritischer Schaden",
+                        "id": 38,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "11 bis 15 Kritischer Schaden"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Filzpunkte",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 bis +10 Filzpunkte"
+                },
+                {
                     "int_minimum": 11,
                     "int_maximum": 15,
                     "type": {
@@ -548700,167 +548914,6 @@
             }
         },
         {
-            "ankama_id": 34738,
-            "name": "Guiras Siegel",
-            "type": {
-                "name": "Ring",
-                "id": 17
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/9421-128.png"
-            },
-            "description": "",
-            "recipe": [
-                {
-                    "item_ankama_id": 34720,
-                    "item_subtype": "equipment",
-                    "quantity": 1
-                },
-                {
-                    "item_ankama_id": 34878,
-                    "item_subtype": "resources",
-                    "quantity": 60
-                },
-                {
-                    "item_ankama_id": 34884,
-                    "item_subtype": "resources",
-                    "quantity": 4
-                },
-                {
-                    "item_ankama_id": 34890,
-                    "item_subtype": "resources",
-                    "quantity": 1
-                }
-            ],
-            "effects": [
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 250,
-                    "type": {
-                        "name": "Vitalität",
-                        "id": 9,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 bis +250 Vitalität"
-                },
-                {
-                    "int_minimum": 31,
-                    "int_maximum": 40,
-                    "type": {
-                        "name": "Intelligenz",
-                        "id": 13,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "31 bis +40 Intelligenz"
-                },
-                {
-                    "int_minimum": 41,
-                    "int_maximum": 60,
-                    "type": {
-                        "name": "Schlagkraft",
-                        "id": 32,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "41 bis +60 Schlagkraft"
-                },
-                {
-                    "int_minimum": 16,
-                    "int_maximum": 25,
-                    "type": {
-                        "name": "Weisheit",
-                        "id": 10,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "16 bis +25 Weisheit"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% KT",
-                        "id": 29,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 bis 4% KT"
-                },
-                {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
-                    "type": {
-                        "name": "Kritischer Schaden",
-                        "id": 38,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "11 bis 15 Kritischer Schaden"
-                },
-                {
-                    "int_minimum": 7,
-                    "int_maximum": 10,
-                    "type": {
-                        "name": "Filzpunkte",
-                        "id": 25,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "7 bis +10 Filzpunkte"
-                },
-                {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
-                    "type": {
-                        "name": "% Feuerresistenz",
-                        "id": 37,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "9 bis 12% Feuerresistenz"
-                },
-                {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Wasserresistenz",
-                        "id": 17,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6 % Wasserresistenz"
-                }
-            ],
-            "is_weapon": false,
-            "pods": 10,
-            "parent_set": {
-                "id": 1119,
-                "name": "Guiras Asche"
-            }
-        },
-        {
             "ankama_id": 34739,
             "name": "Guiras Hammer",
             "type": {
@@ -548882,7 +548935,7 @@
                 {
                     "item_ankama_id": 34878,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34884,
@@ -548892,7 +548945,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -549014,32 +549087,6 @@
                     "formatted": "-15 Resist. BP-Entzug"
                 },
                 {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% Erdresistenz",
-                        "id": 63,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 bis +4% Erdresistenz"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% Luftresistenz",
-                        "id": 16,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 bis 4% Luftresistenz"
-                },
-                {
                     "int_minimum": 9,
                     "int_maximum": 12,
                     "type": {
@@ -549053,21 +549100,8 @@
                     "formatted": "9 bis 12% Feuerresistenz"
                 },
                 {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Wasserresistenz",
-                        "id": 17,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6 % Wasserresistenz"
-                },
-                {
-                    "int_minimum": 55,
-                    "int_maximum": 58,
+                    "int_minimum": 42,
+                    "int_maximum": 47,
                     "type": {
                         "name": "Feuerschaden",
                         "id": 198,
@@ -549076,7 +549110,20 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "55 bis 58 Feuerschaden"
+                    "formatted": "42 bis 47 Feuerschaden"
+                },
+                {
+                    "int_minimum": 6,
+                    "int_maximum": 7,
+                    "type": {
+                        "name": "Feuerschaden",
+                        "id": 198,
+                        "is_meta": false,
+                        "is_active": true
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "6 bis 7 Feuerschaden"
                 }
             ],
             "is_weapon": true,
@@ -549086,7 +549133,7 @@
                 "name": "Guiras Asche"
             },
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 7,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -549106,7 +549153,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17711-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17711-128.png"
             },
-            "description": "",
+            "description": "[!] « Si tu me crois naïve, ma très chère sœur, tu changeras d'avis.\n\nDe cette île que j'aime tant et qui nous a vues naître, j'en ai fait le tour.\n\nJ'irai visiter les palais de royaumes lointains, voir les montagnes par-delà la mer, embrasser cet ailleurs qui me tend les bras. Attends de voir les histoires et les trésors que je ramènerais avec moi !\n\nPuissent ici les jours alcyoniens durer toujours.\n\nJe n'emporte que ma lyre et des fruits jeunes. Je pars sans doutes ni regrets, car je sais que le vent guidera ma route.\n\nPrends soin de l'île et de nos sœurs,\n\nElil. »",
             "recipe": [
                 {
                     "item_ankama_id": 34722,
@@ -549116,7 +549163,7 @@
                 {
                     "item_ankama_id": 34880,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34886,
@@ -549126,7 +549173,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -549306,7 +549373,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82621-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82621-128.png"
             },
-            "description": "",
+            "description": "[!] « Le Mont Émeraude pour nos lèvres a vermeillé ses treilles,\nLes temples sont ouverts, les dragons sont revenus,\nLe Berceau sur la mer a vidé ses corbeilles,\nEt les flots ioniens ont lustré nos pieds nus. »\n\n— poème Bellaphone",
             "recipe": [
                 {
                     "item_ankama_id": 34723,
@@ -549316,7 +549383,7 @@
                 {
                     "item_ankama_id": 34880,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34886,
@@ -549326,7 +549393,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -549396,8 +549483,8 @@
                     "formatted": "3 bis 5% KT"
                 },
                 {
-                    "int_minimum": 21,
-                    "int_maximum": 30,
+                    "int_minimum": 31,
+                    "int_maximum": 40,
                     "type": {
                         "name": "Schubsschaden",
                         "id": 62,
@@ -549406,7 +549493,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "21 bis 30 Schubsschaden"
+                    "formatted": "31 bis 40 Schubsschaden"
                 },
                 {
                     "int_minimum": 11,
@@ -549420,6 +549507,32 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "11 bis +15 Filzpunkte"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Feuerresistenz",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 4% Feuerresistenz"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Wasserresistenz",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 4% Wasserresistenz"
                 },
                 {
                     "int_minimum": 9,
@@ -549477,7 +549590,7 @@
                 {
                     "item_ankama_id": 34880,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34886,
@@ -549487,7 +549600,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -549495,14 +549628,14 @@
                     "int_minimum": 12,
                     "int_maximum": 14,
                     "type": {
-                        "name": "Luftschaden",
-                        "id": 189,
+                        "name": "Entzug von Punkten im Element Luft",
+                        "id": 224,
                         "is_meta": false,
                         "is_active": true
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "12 bis 14 Luftschaden"
+                    "formatted": "Entzug von 12 bis 14 Punkten im Element Luft"
                 },
                 {
                     "int_minimum": 9,
@@ -549635,32 +549768,6 @@
                     "formatted": "-15 Ausweichen"
                 },
                 {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% Feuerresistenz",
-                        "id": 37,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 bis 4% Feuerresistenz"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% Wasserresistenz",
-                        "id": 17,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 bis 4% Wasserresistenz"
-                },
-                {
                     "int_minimum": 9,
                     "int_maximum": 12,
                     "type": {
@@ -549672,19 +549779,6 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "9 bis 12% Luftresistenz"
-                },
-                {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Erdresistenz",
-                        "id": 63,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% Erdresistenz"
                 }
             ],
             "is_weapon": true,
@@ -549694,7 +549788,7 @@
                 "name": "Elils Relikte"
             },
             "critical_hit_probability": 20,
-            "critical_hit_bonus": 5,
+            "critical_hit_bonus": 8,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -549724,7 +549818,7 @@
                 {
                     "item_ankama_id": 34879,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34885,
@@ -549734,7 +549828,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -549856,6 +549970,226 @@
                     "formatted": "11 bis +15 Filzpunkte"
                 },
                 {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "% Erdresistenz",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis +12% Erdresistenz"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Wasserresistenz",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 4% Wasserresistenz"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Feuerresistenz",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 4% Feuerresistenz"
+                },
+                {
+                    "int_minimum": -6,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% Luftresistenz",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-6% Luftresistenz"
+                }
+            ],
+            "is_weapon": false,
+            "pods": 10,
+            "parent_set": {
+                "id": 1121,
+                "name": "Ninmas Erinnerungen"
+            }
+        },
+        {
+            "ankama_id": 34744,
+            "name": "Ninmas Reif",
+            "type": {
+                "name": "Ring",
+                "id": 17
+            },
+            "level": 200,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-128.png"
+            },
+            "description": "[!] Souvenir d'un amour interdit, fruit d'une passion oubliée ; de cette alliance émane encore une douce chaleur, pareille à celle de la terre labourée.",
+            "recipe": [
+                {
+                    "item_ankama_id": 34726,
+                    "item_subtype": "equipment",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 34879,
+                    "item_subtype": "resources",
+                    "quantity": 80
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34890,
+                    "item_subtype": "resources",
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                }
+            ],
+            "effects": [
+                {
+                    "int_minimum": 201,
+                    "int_maximum": 250,
+                    "type": {
+                        "name": "Vitalität",
+                        "id": 9,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "201 bis +250 Vitalität"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Stärke",
+                        "id": 45,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 bis +40 Stärke"
+                },
+                {
+                    "int_minimum": 31,
+                    "int_maximum": 40,
+                    "type": {
+                        "name": "Schlagkraft",
+                        "id": 32,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "31 bis +40 Schlagkraft"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 25,
+                    "type": {
+                        "name": "Weisheit",
+                        "id": 10,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis +25 Weisheit"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 5,
+                    "type": {
+                        "name": "% KT",
+                        "id": 29,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 5% KT"
+                },
+                {
+                    "int_minimum": 5,
+                    "int_maximum": 8,
+                    "type": {
+                        "name": "Erdschaden",
+                        "id": 48,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "5 bis 8 Erdschaden"
+                },
+                {
+                    "int_minimum": 7,
+                    "int_maximum": 10,
+                    "type": {
+                        "name": "Filzpunkte",
+                        "id": 25,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "7 bis +10 Filzpunkte"
+                },
+                {
+                    "int_minimum": 201,
+                    "int_maximum": 300,
+                    "type": {
+                        "name": "Initiative",
+                        "id": 24,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "201 bis +300 Initiative"
+                },
+                {
                     "int_minimum": 11,
                     "int_maximum": 15,
                     "type": {
@@ -549916,180 +550250,6 @@
             }
         },
         {
-            "ankama_id": 34744,
-            "name": "Ninmas Reif",
-            "type": {
-                "name": "Ring",
-                "id": 17
-            },
-            "level": 200,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/9420-128.png"
-            },
-            "description": "",
-            "recipe": [
-                {
-                    "item_ankama_id": 34726,
-                    "item_subtype": "equipment",
-                    "quantity": 1
-                },
-                {
-                    "item_ankama_id": 34879,
-                    "item_subtype": "resources",
-                    "quantity": 60
-                },
-                {
-                    "item_ankama_id": 34885,
-                    "item_subtype": "resources",
-                    "quantity": 4
-                },
-                {
-                    "item_ankama_id": 34890,
-                    "item_subtype": "resources",
-                    "quantity": 1
-                }
-            ],
-            "effects": [
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 250,
-                    "type": {
-                        "name": "Vitalität",
-                        "id": 9,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 bis +250 Vitalität"
-                },
-                {
-                    "int_minimum": 31,
-                    "int_maximum": 40,
-                    "type": {
-                        "name": "Stärke",
-                        "id": 45,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "31 bis +40 Stärke"
-                },
-                {
-                    "int_minimum": 41,
-                    "int_maximum": 60,
-                    "type": {
-                        "name": "Schlagkraft",
-                        "id": 32,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "41 bis +60 Schlagkraft"
-                },
-                {
-                    "int_minimum": 16,
-                    "int_maximum": 25,
-                    "type": {
-                        "name": "Weisheit",
-                        "id": 10,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "16 bis +25 Weisheit"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 5,
-                    "type": {
-                        "name": "% KT",
-                        "id": 29,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 bis 5% KT"
-                },
-                {
-                    "int_minimum": 5,
-                    "int_maximum": 8,
-                    "type": {
-                        "name": "Erdschaden",
-                        "id": 48,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "5 bis 8 Erdschaden"
-                },
-                {
-                    "int_minimum": 7,
-                    "int_maximum": 10,
-                    "type": {
-                        "name": "Filzpunkte",
-                        "id": 25,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "7 bis +10 Filzpunkte"
-                },
-                {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
-                    "type": {
-                        "name": "% Erdresistenz",
-                        "id": 63,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "9 bis +12% Erdresistenz"
-                },
-                {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Luftresistenz",
-                        "id": 16,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% Luftresistenz"
-                },
-                {
-                    "int_minimum": 201,
-                    "int_maximum": 300,
-                    "type": {
-                        "name": "Initiative",
-                        "id": 24,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "201 bis +300 Initiative"
-                }
-            ],
-            "is_weapon": false,
-            "pods": 10,
-            "parent_set": {
-                "id": 1121,
-                "name": "Ninmas Erinnerungen"
-            }
-        },
-        {
             "ankama_id": 34745,
             "name": "Ninmas Axt",
             "type": {
@@ -550111,7 +550271,7 @@
                 {
                     "item_ankama_id": 34879,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34885,
@@ -550121,7 +550281,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -550139,19 +550319,6 @@
                     "formatted": "51 bis 62 Erdschaden"
                 },
                 {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Luftresistenz",
-                        "id": 16,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% Luftresistenz"
-                },
-                {
                     "int_minimum": 9,
                     "int_maximum": 12,
                     "type": {
@@ -550163,32 +550330,6 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "9 bis +12% Erdresistenz"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% Wasserresistenz",
-                        "id": 17,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 bis 4% Wasserresistenz"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% Feuerresistenz",
-                        "id": 37,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 bis 4% Feuerresistenz"
                 },
                 {
                     "int_minimum": -15,
@@ -550335,7 +550476,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82609-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82609-128.png"
             },
-            "description": "",
+            "description": "[!] À la surface de ce miroir dansent des reflets d'une beauté obsédante. Derrière ces mirages, on discerne pourtant un grand précipice, qui semble plonger au plus profond de l'âme. Prenez garde à ne pas vous éblouir ou vous noyer, mais une grande sagesse y réside pour qui cherche la vérité.",
             "recipe": [
                 {
                     "item_ankama_id": 34728,
@@ -550345,7 +550486,7 @@
                 {
                     "item_ankama_id": 34882,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34888,
@@ -550355,7 +550496,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -550488,6 +550649,19 @@
                     "ignore_int_min": false,
                     "ignore_int_max": true,
                     "formatted": "-1 Beschwörung"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Neutralresistenz",
+                        "id": 34,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 4% Neutralresistenz"
                 }
             ],
             "is_weapon": false,
@@ -550509,7 +550683,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16948-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16948-128.png"
             },
-            "description": "",
+            "description": "[!] « Garde-toi bien de la gloire et des lauriers : la victoire te rendra aveugle. Celle qui ne regarde plus le monde avec un cœur modeste a déjà perdu. »\n\n— Utu",
             "recipe": [
                 {
                     "item_ankama_id": 34729,
@@ -550519,7 +550693,7 @@
                 {
                     "item_ankama_id": 34882,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34888,
@@ -550529,7 +550703,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -550586,8 +550780,8 @@
                     "formatted": "11 bis +15 Filzpunkte"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 15,
+                    "int_maximum": 18,
                     "type": {
                         "name": "Erdschaden",
                         "id": 48,
@@ -550596,11 +550790,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 bis 15 Erdschaden"
+                    "formatted": "15 bis 18 Erdschaden"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 15,
+                    "int_maximum": 18,
                     "type": {
                         "name": "Feuerschaden",
                         "id": 61,
@@ -550609,11 +550803,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 bis 15 Feuerschaden"
+                    "formatted": "15 bis 18 Feuerschaden"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 15,
+                    "int_maximum": 18,
                     "type": {
                         "name": "Wasserschaden",
                         "id": 27,
@@ -550622,11 +550816,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 bis 15 Wasserschaden"
+                    "formatted": "15 bis 18 Wasserschaden"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 15,
+                    "int_maximum": 18,
                     "type": {
                         "name": "Luftschaden",
                         "id": 47,
@@ -550635,7 +550829,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 bis 15 Luftschaden"
+                    "formatted": "15 bis 18 Luftschaden"
                 },
                 {
                     "int_minimum": 3,
@@ -550714,6 +550908,19 @@
                     "ignore_int_min": false,
                     "ignore_int_max": true,
                     "formatted": "-1 Beschwörung"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Neutralresistenz",
+                        "id": 34,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 4% Neutralresistenz"
                 }
             ],
             "is_weapon": false,
@@ -550745,7 +550952,7 @@
                 {
                     "item_ankama_id": 34882,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34888,
@@ -550755,7 +550962,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -550773,8 +551000,8 @@
                     "formatted": "351 bis +400 Vitalität"
                 },
                 {
-                    "int_minimum": 41,
-                    "int_maximum": 60,
+                    "int_minimum": 51,
+                    "int_maximum": 70,
                     "type": {
                         "name": "Schlagkraft",
                         "id": 32,
@@ -550783,7 +551010,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "41 bis +60 Schlagkraft"
+                    "formatted": "51 bis +70 Schlagkraft"
                 },
                 {
                     "int_minimum": 41,
@@ -550992,6 +551219,19 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "11 bis +15 Filzpunkte"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Neutralresistenz",
+                        "id": 34,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 4% Neutralresistenz"
                 }
             ],
             "is_weapon": true,
@@ -551031,7 +551271,7 @@
                 {
                     "item_ankama_id": 34881,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34887,
@@ -551041,7 +551281,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -551059,8 +551319,8 @@
                     "formatted": "1 AP"
                 },
                 {
-                    "int_minimum": 351,
-                    "int_maximum": 400,
+                    "int_minimum": 401,
+                    "int_maximum": 450,
                     "type": {
                         "name": "Vitalität",
                         "id": 9,
@@ -551069,11 +551329,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "351 bis +400 Vitalität"
+                    "formatted": "401 bis +450 Vitalität"
                 },
                 {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
+                    "int_minimum": 11,
+                    "int_maximum": 15,
                     "type": {
                         "name": "Schaden",
                         "id": 30,
@@ -551082,7 +551342,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "9 bis 12 Schaden"
+                    "formatted": "11 bis 15 Schaden"
                 },
                 {
                     "int_minimum": 31,
@@ -551124,17 +551384,17 @@
                     "formatted": "4 bis 6 % Fernkampfschaden"
                 },
                 {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
+                    "int_minimum": 7,
+                    "int_maximum": 10,
                     "type": {
-                        "name": "% Neutralresistenz",
-                        "id": 34,
+                        "name": "% Nahkampfresistenz",
+                        "id": 65,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "9 bis 12% Neutralresistenz"
+                    "formatted": "7 bis 10 % Nahkampfresistenz"
                 },
                 {
                     "int_minimum": 1,
@@ -551163,8 +551423,8 @@
                     "formatted": "-1 RW"
                 },
                 {
-                    "int_minimum": 16,
-                    "int_maximum": 25,
+                    "int_minimum": 21,
+                    "int_maximum": 30,
                     "type": {
                         "name": "Resistenz gegen Kritische Treffer",
                         "id": 46,
@@ -551173,20 +551433,20 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "16 bis 25 Resistenz gegen Kritische Treffer"
+                    "formatted": "21 bis 30 Resistenz gegen Kritische Treffer"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 16,
+                    "int_maximum": 20,
                     "type": {
-                        "name": "Resistenz gegen Schubsen",
-                        "id": 70,
+                        "name": "Ausweichen",
+                        "id": 59,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 bis 15 Resistenz gegen Schubsen"
+                    "formatted": "16 bis +20 Ausweichen"
                 }
             ],
             "is_weapon": false,
@@ -551208,7 +551468,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16929-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16929-128.png"
             },
-            "description": "",
+            "description": "[!] « Ombres célestes, lumières abyssales,\n\nSplendides muses, nocturnes vestales,\n\nQue vos chants consolent les mânes,\n\nQue continue le cycle des âmes. »\n\n\n— chant rituel Bellaphone",
             "recipe": [
                 {
                     "item_ankama_id": 34732,
@@ -551218,7 +551478,7 @@
                 {
                     "item_ankama_id": 34881,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34887,
@@ -551228,7 +551488,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -551246,8 +551526,8 @@
                     "formatted": "401 bis +450 Vitalität"
                 },
                 {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
+                    "int_minimum": 11,
+                    "int_maximum": 15,
                     "type": {
                         "name": "Schaden",
                         "id": 30,
@@ -551256,7 +551536,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "9 bis 12 Schaden"
+                    "formatted": "11 bis 15 Schaden"
                 },
                 {
                     "int_minimum": 31,
@@ -551298,17 +551578,17 @@
                     "formatted": "4 bis 6 % Nahkampfschaden"
                 },
                 {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
+                    "int_minimum": 7,
+                    "int_maximum": 10,
                     "type": {
-                        "name": "% Neutralresistenz",
-                        "id": 34,
+                        "name": "% Fernkampfresistenz",
+                        "id": 108,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "9 bis 12% Neutralresistenz"
+                    "formatted": "7 bis 10 % Fernkampfresistenz"
                 },
                 {
                     "int_minimum": 1,
@@ -551337,21 +551617,8 @@
                     "formatted": "-1 RW"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
-                    "type": {
-                        "name": "Resistenz gegen Kritische Treffer",
-                        "id": 46,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "11 bis 15 Resistenz gegen Kritische Treffer"
-                },
-                {
-                    "int_minimum": 16,
-                    "int_maximum": 25,
+                    "int_minimum": 21,
+                    "int_maximum": 30,
                     "type": {
                         "name": "Resistenz gegen Schubsen",
                         "id": 70,
@@ -551360,7 +551627,20 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "16 bis 25 Resistenz gegen Schubsen"
+                    "formatted": "21 bis 30 Resistenz gegen Schubsen"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Ausweichen",
+                        "id": 59,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis +20 Ausweichen"
                 }
             ],
             "is_weapon": false,
@@ -551392,7 +551672,7 @@
                 {
                     "item_ankama_id": 34881,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34887,
@@ -551402,7 +551682,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34884,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34889,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -551433,8 +551733,8 @@
                     "formatted": "Entzug von 26 bis 27 Punkten im Element Neutral"
                 },
                 {
-                    "int_minimum": 401,
-                    "int_maximum": 450,
+                    "int_minimum": 351,
+                    "int_maximum": 400,
                     "type": {
                         "name": "Vitalität",
                         "id": 9,
@@ -551443,11 +551743,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "401 bis +450 Vitalität"
+                    "formatted": "351 bis +400 Vitalität"
                 },
                 {
                     "int_minimum": 9,
-                    "int_maximum": 12,
+                    "int_maximum": 13,
                     "type": {
                         "name": "Schaden",
                         "id": 30,
@@ -551456,7 +551756,7 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "9 bis 12 Schaden"
+                    "formatted": "9 bis 13 Schaden"
                 },
                 {
                     "int_minimum": 31,
@@ -551550,8 +551850,8 @@
                     "formatted": "-1 RW"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 16,
+                    "int_maximum": 20,
                     "type": {
                         "name": "Resistenz gegen Kritische Treffer",
                         "id": 46,
@@ -551560,11 +551860,11 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 bis 15 Resistenz gegen Kritische Treffer"
+                    "formatted": "16 bis 20 Resistenz gegen Kritische Treffer"
                 },
                 {
-                    "int_minimum": 11,
-                    "int_maximum": 15,
+                    "int_minimum": 16,
+                    "int_maximum": 20,
                     "type": {
                         "name": "Resistenz gegen Schubsen",
                         "id": 70,
@@ -551573,7 +551873,20 @@
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": false,
-                    "formatted": "11 bis 15 Resistenz gegen Schubsen"
+                    "formatted": "16 bis 20 Resistenz gegen Schubsen"
+                },
+                {
+                    "int_minimum": 16,
+                    "int_maximum": 20,
+                    "type": {
+                        "name": "Ausweichen",
+                        "id": 59,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "16 bis +20 Ausweichen"
                 }
             ],
             "is_weapon": true,
@@ -551613,7 +551926,7 @@
                 {
                     "item_ankama_id": 34883,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34889,
@@ -551623,7 +551936,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -551719,32 +552052,6 @@
                     "formatted": "16 bis 20 Heilung"
                 },
                 {
-                    "int_minimum": 9,
-                    "int_maximum": 12,
-                    "type": {
-                        "name": "% Wasserresistenz",
-                        "id": 17,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "9 bis 12% Wasserresistenz"
-                },
-                {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Feuerresistenz",
-                        "id": 37,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% Feuerresistenz"
-                },
-                {
                     "int_minimum": 1,
                     "int_maximum": 0,
                     "type": {
@@ -551769,6 +552076,58 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "351 bis +400 Vitalität"
+                },
+                {
+                    "int_minimum": -6,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "% Feuerresistenz",
+                        "id": 37,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "-6% Feuerresistenz"
+                },
+                {
+                    "int_minimum": 9,
+                    "int_maximum": 12,
+                    "type": {
+                        "name": "% Wasserresistenz",
+                        "id": 17,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "9 bis 12% Wasserresistenz"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Erdresistenz",
+                        "id": 63,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis +4% Erdresistenz"
+                },
+                {
+                    "int_minimum": 3,
+                    "int_maximum": 4,
+                    "type": {
+                        "name": "% Luftresistenz",
+                        "id": 16,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": false,
+                    "formatted": "3 bis 4% Luftresistenz"
                 }
             ],
             "is_weapon": false,
@@ -551800,7 +552159,7 @@
                 {
                     "item_ankama_id": 34883,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34889,
@@ -551810,7 +552169,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -552000,7 +552379,7 @@
                 {
                     "item_ankama_id": 34883,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 80
                 },
                 {
                     "item_ankama_id": 34889,
@@ -552010,7 +552389,27 @@
                 {
                     "item_ankama_id": 34890,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
+                },
+                {
+                    "item_ankama_id": 34886,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34885,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34887,
+                    "item_subtype": "resources",
+                    "quantity": 2
+                },
+                {
+                    "item_ankama_id": 34888,
+                    "item_subtype": "resources",
+                    "quantity": 2
                 }
             ],
             "effects": [
@@ -552028,19 +552427,6 @@
                     "formatted": "31 bis 37 Wasserschaden"
                 },
                 {
-                    "int_minimum": -6,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "% Feuerresistenz",
-                        "id": 37,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": true,
-                    "formatted": "-6% Feuerresistenz"
-                },
-                {
                     "int_minimum": 9,
                     "int_maximum": 12,
                     "type": {
@@ -552052,32 +552438,6 @@
                     "ignore_int_min": false,
                     "ignore_int_max": false,
                     "formatted": "9 bis 12% Wasserresistenz"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% Erdresistenz",
-                        "id": 63,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 bis +4% Erdresistenz"
-                },
-                {
-                    "int_minimum": 3,
-                    "int_maximum": 4,
-                    "type": {
-                        "name": "% Luftresistenz",
-                        "id": 16,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": false,
-                    "ignore_int_max": false,
-                    "formatted": "3 bis 4% Luftresistenz"
                 },
                 {
                     "int_minimum": -15,

@@ -128601,49 +128601,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 35003,
-            "name": "Pose de la source",
-            "type": {
-                "name": "Poses",
-                "id": 250
-            },
-            "level": 1,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/325019-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/325019-128.png"
-            },
-            "description": "Cette nouvelle pose vous permettra de varier les plaisirs.",
-            "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Débloque une pose",
-                        "id": 266,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Débloque une pose"
-                },
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Échangeable :",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Échangeable : 0"
-                }
-            ],
-            "pods": 0
-        },
-        {
             "ankama_id": 35036,
             "name": "Parchemin de lignée",
             "type": {
@@ -128669,6 +128626,49 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Ajoute un niveau dans la lignée courante"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35057,
+            "name": "Diplôme d'Avent-Garde'",
+            "type": {
+                "name": "Parchemin de titre",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/76046-128.png"
+            },
+            "description": "Ce diplôme confère le titre « Avent-Garde ».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titre :",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titre : Avent-Garde"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1

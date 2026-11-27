@@ -128601,49 +128601,6 @@
             "pods": 1
         },
         {
-            "ankama_id": 35003,
-            "name": "Pose der Quelle",
-            "type": {
-                "name": "Posen",
-                "id": 250
-            },
-            "level": 1,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/325019-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/325019-128.png"
-            },
-            "description": "Mit dieser neuen Pose könnt ihr für ein bisschen mehr Abwechslung sorgen.",
-            "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Schaltet eine Pose frei",
-                        "id": 266,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Schaltet eine Pose frei"
-                },
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Austauschbar:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Austauschbar: 0"
-                }
-            ],
-            "pods": 0
-        },
-        {
             "ankama_id": 35036,
             "name": "[!] Parchemin de lignée",
             "type": {
@@ -128669,6 +128626,49 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "[!] Ajoute un niveau dans la lignée courante"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35057,
+            "name": "[!] Diplôme d'Avent-Garde'",
+            "type": {
+                "name": "Titel-Schriftrolle",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/76046-128.png"
+            },
+            "description": "[!] Ce diplôme confère le titre « Avent-Garde ».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Titel:",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Titel: [!] Avent-Garde"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
                 }
             ],
             "pods": 1

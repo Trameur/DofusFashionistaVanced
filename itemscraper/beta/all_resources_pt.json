@@ -80841,7 +80841,7 @@
         },
         {
             "ankama_id": 34630,
-            "name": "[!] Revanche Turquoise",
+            "name": "Revanche Turquesa",
             "type": {
                 "name": "Chave",
                 "id": 50
@@ -80851,12 +80851,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136168-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136168-128.png"
             },
-            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "description": "O rancor contido neste artefato é a promessa de um confronto titânico.",
             "pods": 1
         },
         {
             "ankama_id": 34631,
-            "name": "[!] Revanche Pourpre",
+            "name": "Revanche Púrpura",
             "type": {
                 "name": "Chave",
                 "id": 50
@@ -80866,12 +80866,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136163-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136163-128.png"
             },
-            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "description": "O rancor contido neste artefato é a promessa de um confronto titânico.",
             "pods": 1
         },
         {
             "ankama_id": 34632,
-            "name": "[!] Revanche d'Émeraude",
+            "name": "Revanche de Esmeralda",
             "type": {
                 "name": "Chave",
                 "id": 50
@@ -80881,12 +80881,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136164-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136164-128.png"
             },
-            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "description": "O rancor contido neste artefato é a promessa de um confronto titânico.",
             "pods": 1
         },
         {
             "ankama_id": 34633,
-            "name": "[!] Revanche Ocre",
+            "name": "Revanche Ocre",
             "type": {
                 "name": "Chave",
                 "id": 50
@@ -80896,12 +80896,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136165-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136165-128.png"
             },
-            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "description": "O rancor contido neste artefato é a promessa de um confronto titânico.",
             "pods": 1
         },
         {
             "ankama_id": 34634,
-            "name": "[!] Revanche d'Ébène",
+            "name": "Revanche de Ébano",
             "type": {
                 "name": "Chave",
                 "id": 50
@@ -80911,12 +80911,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136167-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136167-128.png"
             },
-            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "description": "O rancor contido neste artefato é a promessa de um confronto titânico.",
             "pods": 1
         },
         {
             "ankama_id": 34635,
-            "name": "[!] Revanche d'Ivoire",
+            "name": "Revanche de Marfim",
             "type": {
                 "name": "Chave",
                 "id": 50
@@ -80926,7 +80926,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136166-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136166-128.png"
             },
-            "description": "[!] La rancœur contenue dans cet artéfact est la promesse d'un affrontement titanesque.",
+            "description": "O rancor contido neste artefato é a promessa de um confronto titânico.",
             "pods": 1
         },
         {
@@ -81021,7 +81021,7 @@
         },
         {
             "ankama_id": 34878,
-            "name": "Cauda de Salamangue",
+            "name": "Rabo de Carvossauro",
             "type": {
                 "name": "Rabo",
                 "id": 143
@@ -81031,12 +81031,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24544-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24544-128.png"
             },
-            "description": "",
+            "description": "[!] Les braises qui recouvrent les Charbosaures continuent de se consumer longtemps après leur trépas.",
             "pods": 1
         },
         {
             "ankama_id": 34879,
-            "name": "Broto de Drakasca",
+            "name": "Broto de Mandragão",
             "type": {
                 "name": "Broto",
                 "id": 94
@@ -81046,7 +81046,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24546-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24546-128.png"
             },
-            "description": "",
+            "description": "[!] Il semblerait que les Mandragons continuent de fleurir même après leur mort. Certains de leurs bourgeons n'éclosent d'ailleurs qu'à cette occasion.",
             "pods": 1
         },
         {
@@ -81061,7 +81061,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24545-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24545-128.png"
             },
-            "description": "",
+            "description": "[!] Il est déconseillé de prêter l'oreille aux murmures qui s'en échappent. Certains secrets auraient mieux fait de se perdre dans le vent.",
             "pods": 1
         },
         {
@@ -81091,12 +81091,12 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24547-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24547-128.png"
             },
-            "description": "",
+            "description": "[!] Selon l'angle sous lequel on l'observe, sa surface laisse entrevoir des couleurs insoupçonnées. Il serait vain de chercher à toutes les répertorier.",
             "pods": 1
         },
         {
             "ankama_id": 34883,
-            "name": "Barbatana de Dragão-Marinho",
+            "name": "Barbatana de Talassidra",
             "type": {
                 "name": "Recurso diverso",
                 "id": 229
@@ -81106,7 +81106,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24549-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24549-128.png"
             },
-            "description": "",
+            "description": "[!] Il est des choses que les profondeurs ne restituent jamais sans raison.",
             "pods": 1
         },
         {
@@ -81121,7 +81121,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24550-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24550-128.png"
             },
-            "description": "",
+            "description": "[!] La violence est parfois le dernier rempart de la bienveillance.",
             "pods": 2
         },
         {
@@ -81136,7 +81136,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24552-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24552-128.png"
             },
-            "description": "",
+            "description": "[!] Ceux qui portent la mémoire du monde ploient sous le poids de ses fautes.",
             "pods": 2
         },
         {
@@ -81151,7 +81151,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24551-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24551-128.png"
             },
-            "description": "",
+            "description": "[!] À force de parcourir le monde, on finit par n'appartenir à aucun lieu.",
             "pods": 2
         },
         {
@@ -81166,7 +81166,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24554-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24554-128.png"
             },
-            "description": "[!] Tous les chemins ne mènent qu'à une seule issue, la mort.",
+            "description": "Todos os caminhos levam a uma só saída: a morte.",
             "pods": 2
         },
         {
@@ -81181,7 +81181,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24553-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24553-128.png"
             },
-            "description": "",
+            "description": "[!] Douter de ses convictions, c'est renoncer à la justice.",
             "pods": 2
         },
         {
@@ -81196,7 +81196,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/24555-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/24555-128.png"
             },
-            "description": "",
+            "description": "[!] Nul ne devrait aspirer à gouverner avant d'avoir appris à renoncer.",
             "pods": 2
         },
         {

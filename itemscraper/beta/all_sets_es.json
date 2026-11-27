@@ -97665,7 +97665,7 @@
         {
             "ankama_id": 652,
             "name": "Set cosmético del Wey Henelnowte",
-            "items": 4,
+            "items": 5,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -97673,7 +97673,8 @@
                 20739,
                 22322,
                 24188,
-                26256
+                26256,
+                35058
             ]
         },
         {
@@ -123099,7 +123100,7 @@
         },
         {
             "ankama_id": 1115,
-            "name": "Set dracornoque",
+            "name": "Set de mandragón",
             "items": 3,
             "level": 25,
             "contains_cosmetics": false,
@@ -123184,7 +123185,7 @@
         },
         {
             "ankama_id": 1116,
-            "name": "Set dragocampo",
+            "name": "Set de hídrada",
             "items": 3,
             "level": 40,
             "contains_cosmetics": false,
@@ -124176,7 +124177,7 @@
         },
         {
             "ankama_id": 1129,
-            "name": "[!] Panoplie d'apparat de la Démone VIII",
+            "name": "Set cosmético de la Demonio VIII",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -124190,7 +124191,7 @@
         },
         {
             "ankama_id": 1130,
-            "name": "[!] Panoplie d'apparat diaprée de la Démone VIII",
+            "name": "Set cosmético matizado de la Demonio VIII",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -124204,7 +124205,7 @@
         },
         {
             "ankama_id": 1131,
-            "name": "[!] Panoplie d'apparat de la source",
+            "name": "Set cosmético de la Fuente",
             "items": 5,
             "level": 60,
             "contains_cosmetics": true,
@@ -124219,7 +124220,7 @@
         },
         {
             "ankama_id": 1132,
-            "name": "[!] Panoplie d'apparat Glucolique",
+            "name": "Set cosmético glucólico",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -124233,7 +124234,7 @@
         },
         {
             "ankama_id": 1133,
-            "name": "[!] Panoplie d'apparat Bellaphone",
+            "name": "Set cosmético belíade",
             "items": 6,
             "level": 60,
             "contains_cosmetics": true,

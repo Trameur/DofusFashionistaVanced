@@ -256,8 +256,8 @@
     "pt": "Zigurate"
    },
    "per_turn": [
-    1,
-    1
+    2,
+    2
    ],
    "push": [
     {
@@ -924,7 +924,7 @@
     "de": "Verursacht Schaden im besten Angriffselement des Zaubernden.\nDer Schaden ist höher, wenn das Ziel der einzige Gegner in der Bellaura ist.",
     "en": "Inflicts damage in the caster's best element.\nThe damage is greater if the target is the only enemy in the Bellaura.",
     "es": "Ocasiona daños con el mejor elemento del lanzador.\nLos daños son mayores si el objetivo es el único enemigo dentro de la belaura.",
-    "fr": "Occasionne des dommages dans le meilleur élément du lanceur.\nLes dommages sont plus importants si la cible est le seul ennemi dans la Bellaura.",
+    "fr": "Occasionne des dommages dans le meilleur élément du lanceur.\n\nLes dommages sont plus importants si la cible est le seul ennemi dans la Bellaura.",
     "pt": "Inflige danos no melhor elemento do lançador.\nOs danos aumentam se o alvo for o único inimigo na Belaura."
    },
    "id": 33231,
@@ -1237,7 +1237,7 @@
     "de": "Deaktiviert die Bellaura, um dem Zaubernden eine Lebens-Untergrenze zu verleihen, die verhindert, dass er besiegt wird.\nIn der nächsten Runde wird die Bellaura reaktiviert und der Zaubernde geheilt.",
     "en": "Deactivates the Bellaura to apply an HP threshold on the caster, which prevents them from dying.\nReactivates the Bellaura and heals the caster on the following turn.",
     "es": "Desactiva la belaura y aplica un umbral de vida al lanzador para impedir que muera.\nReactiva la belaura y cura al lanzador en el siguiente turno.",
-    "fr": "Désactive la Bellaura pour appliquer un seuil de vie sur le lanceur.\nLorsque ce seuil est activé, il se retire pour soigner le lanceur et réactiver sa Bellaura.",
+    "fr": "Réduit la durée des effets sur toutes les entités dans la Bellaura et la désactive.\n\nApplique également un seuil de vie sur le lanceur :\n• Lorsque ce seuil est atteint, les effets du sort sont retirés pour augmenter la Vitalité du lanceur.\n• La moitié de ce bonus se dissipe plus tôt.",
     "pt": "Desativa a Belaura para aplicar um limite de vida ao lançador, impedindo-o de morrer.\nReativa a Belaura e cura o lançador no turno seguinte."
    },
    "id": 33241,
@@ -1498,8 +1498,8 @@
     "pt": "Monte Soterrado"
    },
    "per_turn": [
-    1,
-    1
+    2,
+    2
    ],
    "range": [
     [
@@ -1697,11 +1697,11 @@
    "range": [
     [
      1,
-     4
+     6
     ],
     [
      1,
-     5
+     6
     ],
     [
      1,
@@ -1849,11 +1849,11 @@
    "range": [
     [
      0,
-     4
+     6
     ],
     [
      0,
-     5
+     6
     ],
     [
      0,
@@ -2281,7 +2281,7 @@
     "de": "Verursacht Erdschaden und entzieht AP.\nEinem Ziel in der Bellaura werden zusätzliche AP entzogen.",
     "en": "Inflicts Earth damage and removes AP.\nThe removal is greater on a target in the Bellaura.",
     "es": "Ocasiona daños de tierra y retira PA.\nLa retirada es mayor en un objetivo dentro de la belaura.",
-    "fr": "Occasionne des dommages Terre et retire des PA.\nLe retrait devient non esquivable si la cible est dans la Bellaura.",
+    "fr": "Occasionne des dommages Terre aux ennemis, leur retire des PA et attire les cibles vers le centre en zone.\n\nL'attirance n'affecte pas le lanceur.",
     "pt": "Inflige danos de terra e retira PA.\nA retirada é maior em um alvo na Belaura."
    },
    "id": 33204,
@@ -2301,31 +2301,26 @@
     "de": "Beerdigung",
     "en": "Inhumation",
     "es": "Inhumación",
-    "fr": "Inhumation",
+    "fr": "Djebel",
     "pt": "Inumação"
    },
-   "per_target": [
+   "per_turn": [
     2,
     2,
     2
    ],
-   "per_turn": [
-    3,
-    3,
-    4
-   ],
    "range": [
     [
-     1,
-     4
-    ],
-    [
-     1,
+     0,
      5
     ],
     [
-     1,
-     6
+     0,
+     5
+    ],
+    [
+     0,
+     5
     ]
    ],
    "stacks": [
@@ -2477,9 +2472,9 @@
    "description": {
     "de": "Fügt Gegnern im Wirkungsbereich Wasserschaden zu.\nFügt Gegnern, die sich sowohl im Wirkungsbereich als auch in der Bellaura befinden, zusätzlichen Wasserschaden zu.",
     "en": "Inflicts Water damage on enemies in an area of effect.\nInflicts additional Water damage on enemies in the area of effect and in the Bellaura.",
-    "es": "Ocasiona daños de agua a los enemigos en zona.\nOcasiona daños de agua adicionales a los enemigos en la zona de efecto y dentro de la belaura.",
-    "fr": "Occasionne des dommages Eau aux ennemis en zone.\nOccasionne des dommages Eau supplémentaires aux ennemis à la fois dans la zone d'effet et dans la Bellaura.",
-    "pt": "Inflige danos de água aos inimigos em zona.\nInflige danos de água adicionais aos inimigos na zona de efeito e na Belaura."
+    "es": "Ocasiona daños de agua a los enemigos en zona.\nOcasiona daños de agua adicionales a los enemigos a la vez en la zona de efecto y en la belaura.",
+    "fr": "Occasionne des dommages Eau aux ennemis en zone.\n\nOccasionne des dommages Eau supplémentaires aux ennemis à la fois dans la zone d'effet et dans la Bellaura.",
+    "pt": "Inflige danos de água aos inimigos em zona.\nInflige danos de água adicionais aos inimigos ao mesmo tempo na zona de efeito e na Belaura."
    },
    "id": 33211,
    "kind": {
@@ -2541,9 +2536,9 @@
    "description": {
     "de": "Fügt Gegnern im Wirkungsbereich Luftschaden zu.\nAußerdem werden die Ziele, die sich sowohl im Wirkungsbereich als auch in der Bellaura befinden, symmetrisch zur Mitte teleportiert.\n\nHat keine direkte Wirkung auf den Zaubernden.",
     "en": "Inflicts Air damage on enemies in an area of effect.\nAlso teleports the targets in the area of effect and in the Bellaura symmetrically in relation to the centre.\n\nDoes not directly affect the caster.",
-    "es": "Ocasiona daños de aire a los enemigos en zona.\nTambién teletransporta a los objetivos en la zona de efecto y dentro de la belaura simétricamente con respecto al centro.\n\nNo afecta directamente al lanzador.",
-    "fr": "Occasionne des dommages Air aux ennemis en zone.\nTéléporte également les cibles à la fois dans la zone d'effet et dans la Bellaura symétriquement par rapport au centre.\n\nN'affecte pas directement le lanceur.",
-    "pt": "Inflige danos de ar aos inimigos em zona.\nTambém teletransporta os alvos na zona de efeito e na Belaura simetricamente em relação ao centro.\n\nNão afeta diretamente o lançador."
+    "es": "Ocasiona daños de aire a los enemigos en zona.\nTeletransporta también a los objetivos a la vez a la zona de efecto y a la belaura simétricamente con respecto al centro.\n\nNo afecta directamente al lanzador.",
+    "fr": "Occasionne des dommages Air aux ennemis en zone.\n\nTéléporte également les cibles à la fois dans la zone d'effet et dans la Bellaura symétriquement par rapport au centre.\nN'affecte pas directement le lanceur.",
+    "pt": "Inflige danos de ar aos inimigos em zona.\nTambém teletransporta os alvos ao mesmo tempo na zona de efeito e na Belaura simetricamente em relação ao centro.\n\nNão afeta diretamente o lançador."
    },
    "id": 33199,
    "kind": {
@@ -2605,9 +2600,9 @@
    "description": {
     "de": "Fügt Gegnern im Wirkungsbereich Erdschaden zu.\nEntzieht Gegnern, die sich sowohl im Wirkungsbereich als auch in der Bellaura befinden, außerdem Schlagkraft.",
     "en": "Inflicts Earth damage on enemies in an area of effect.\nAlso reduces enemies' Power in the area of effect and in the Bellaura.",
-    "es": "Ocasiona daños de tierra a los enemigos en zona.\nTambién retira potencia a los enemigos en la zona de efecto y dentro de la belaura.",
-    "fr": "Occasionne des dommages Terre aux ennemis en zone.\nRetire également des PA aux ennemis à la fois dans la zone d'effet et dans la Bellaura.",
-    "pt": "Inflige danos de terra aos inimigos em zona.\nTambém retira potência dos inimigos na zona de efeito e na Belaura."
+    "es": "Ocasiona daños de tierra a los enemigos en zona.\nRetira también potencia a los enemigos a la vez en la zona de efecto y en la belaura.",
+    "fr": "Occasionne des dommages Terre aux ennemis en zone.\n\nRetire également des PA aux ennemis à la fois dans la zone d'effet et dans la Bellaura.",
+    "pt": "Inflige danos de terra aos inimigos em zona.\nTambém retira potência dos inimigos ao mesmo tempo na zona de efeito e na Belaura."
    },
    "id": 33205,
    "kind": {
@@ -2670,7 +2665,7 @@
     "de": "Fügt Gegnern im Wirkungsbereich Feuerschaden zu.\n\nVergrößert die Bellaura für die Dauer der aktuellen Runde.",
     "en": "Inflicts Fire damage on enemies in an area of effect.\n\nIncreases the Bellaura's size for the current turn.",
     "es": "Ocasiona daños de fuego a los enemigos en zona.\n\nAumenta el tamaño de la belaura durante el turno en curso.",
-    "fr": "Occasionne des dommages Feu aux ennemis en zone.\nRéduit également les soins reçus par les ennemis à la fois dans la zone d'effet et dans la Bellaura.\n\nAugmente la taille de la Bellaura pour le tour en cours.",
+    "fr": "Occasionne des dommages Feu aux ennemis en zone.\n\nRéduit également les soins reçus par les ennemis à la fois dans la zone d'effet et dans la Bellaura.\n\nAugmente la taille de la Bellaura pour le tour en cours.",
     "pt": "Inflige danos de fogo aos inimigos em zona.\n\nAumenta o tamanho da Belaura no turno em andamento."
    },
    "id": 33217,
@@ -2841,9 +2836,9 @@
    "description": {
     "de": "Fügt Gegnern im Wirkungsbereich entsprechend den verbleibenden LP des Zaubernden Neutralschaden zu.\nVerringert außerdem die Wirkungsdauer bei Verbündeten, die sich sowohl im Wirkungsbereich als auch in der Bellaura befinden.",
     "en": "Inflicts Neutral damage on enemies based on the caster's remaining HP in an area of effect.\nAlso reduces the duration of effects on allies in the area of effect and in the Bellaura.",
-    "es": "Ocasiona daños neutrales a los enemigos según la vida restante del lanzador en zona.\nTambién reduce la duración de los efectos en los aliados en la zona de efecto y dentro de la belaura.",
-    "fr": "Occasionne des dommages Neutre aux ennemis selon la vie restante du lanceur en zone.\nRepousse également les cibles à la fois dans la zone d'effet et dans la Bellaura.",
-    "pt": "Inflige danos neutros em zona aos inimigos de acordo com a vida restante do lançador.\nTambém reduz a duração dos efeitos nos aliados na zona de efeito e na Belaura."
+    "es": "Ocasiona daños neutrales a los enemigos según la vida restante del lanzador en zona.\nReduce también la duración de los efectos en los aliados a la vez en la zona de efecto y en la belaura.",
+    "fr": "Occasionne des dommages Neutre aux ennemis selon la vie restante du lanceur en zone.\n\nRepousse également les cibles à la fois dans la zone d'effet et dans la Bellaura.",
+    "pt": "Inflige danos neutros em zona aos inimigos de acordo com a vida restante do lançador.\nTambém reduz a duração dos efeitos nos aliados ao mesmo tempo na zona de efeito e na Belaura."
    },
    "id": 33224,
    "kind": {
@@ -2906,9 +2901,9 @@
    "description": {
     "de": "Fügt Gegnern im Wirkungsbereich entsprechend ihren erodierten LP Neutralschaden zu.\nVerringert außerdem die Wirkungsdauer bei Gegnern, die sich sowohl im Wirkungsbereich als auch in der Bellaura befinden.",
     "en": "Inflicts Neutral damage on enemies based on their eroded health in an area of effect.\nAlso reduces the duration of effects on enemies in the area of effect and in the Bellaura.",
-    "es": "Ocasiona daños neutrales a los enemigos según la vida erosionada de estos en zona.\nTambién reduce la duración de los efectos en los enemigos en la zona de efecto y dentro de la belaura.",
-    "fr": "Occasionne des dommages Neutre aux ennemis selon leur vie érodée en zone.\nRéduit également la durée des effets sur les ennemis à la fois dans la zone d'effet et dans la Bellaura.",
-    "pt": "Inflige danos neutros aos inimigos de acordo com a vida erodida deles em zona.\nTambém reduz a duração dos efeitos nos inimigos na zona de efeito e na Belaura."
+    "es": "Ocasiona daños neutrales a los enemigos según la vida erosionada de estos en zona.\nReduce también la duración de los efectos en los enemigos a la vez en la zona de efecto y en la belaura.",
+    "fr": "Occasionne des dommages Neutre aux ennemis selon leur vie érodée en zone.\n\nRéduit également la durée des effets sur les ennemis à la fois dans la zone d'effet et dans la Bellaura.",
+    "pt": "Inflige danos neutros aos inimigos de acordo com a vida erodida deles em zona.\nTambém reduz a duração dos efeitos nos inimigos ao mesmo tempo na zona de efeito e na Belaura."
    },
    "id": 33230,
    "kind": {
@@ -17103,9 +17098,9 @@
    "description": {
     "de": "Tauscht die Position mit dem Ziel und fügt Gegnern Luftschaden zu.",
     "en": "Inflicts Air damage on enemies and switches places with the target.",
-    "es": "Ocasiona daños de tipo aire a los enemigos y cambia de posición con el objetivo.",
+    "es": "Intercambia posición con el objetivo y ocasiona daños de aire a los enemigos.",
     "fr": "Échange de position avec la cible et occasionne des dommages Air aux ennemis.",
-    "pt": "Inflige danos de ar aos inimigos e troca de posição com o alvo."
+    "pt": "Troca de posição com o alvo e inflige danos de ar aos inimigos."
    },
    "id": 13012,
    "kind": {
@@ -44749,7 +44744,7 @@
     "de": "Infiziert und wirkt am Ende der Runde ein Luftgift bei Gegnern im Wirkungsbereich.\nDer Wirkungsbereich weitet sich um die Laubbäume und Püppchen aus.",
     "en": "Infects and applies an end-of-turn Air poison on enemies in an area of effect.\nThe area of effect extends around Leafy Trees and Dolls.",
     "es": "Infecta y aplica un veneno de aire de final de turno a los enemigos en zona.\nLa zona se expande alrededor de los árboles frondosos y de las muñecas.",
-    "fr": "Infecte et applique un poison Air de fin de tour sur les ennemis en zone.\nLa zone s'étend autour des Arbres Feuillus et des Poupées.",
+    "fr": "Infecte et applique un poison Air de fin de tour sur les ennemis en zone.\nLa zone s'étend autour des Arbres Feuillus et des Poupées du lanceur.",
     "pt": "Infecta e aplica um veneno de ar de fim de turno aos inimigos em zona.\nA zona se estende ao redor das Árvores Frondosas e das Bonecas."
    },
    "id": 13562,

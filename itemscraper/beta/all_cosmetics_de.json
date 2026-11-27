@@ -114726,8 +114726,8 @@
             "ankama_id": 35010,
             "name": "Bellaphon-Dracotruter",
             "type": {
-                "name": "Prunkreitbegleiter",
-                "id": 59
+                "name": "Prunkreittier",
+                "id": 241
             },
             "level": 60,
             "image_urls": {
@@ -114831,6 +114831,182 @@
                     "ignore_int_max": true,
                     "formatted": "Austauschbar: 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35051,
+            "name": "[!] Costume Festivan",
+            "type": {
+                "name": "Lebending",
+                "id": 5
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164333-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164333-128.png"
+            },
+            "description": "[!] Cet objet polymorphe établit une relation de prédateur ou de symbiote avec les costumes inanimés.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35052,
+            "name": "[!] Coiffe Festivan",
+            "type": {
+                "name": "Lebending",
+                "id": 5
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16937-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16937-128.png"
+            },
+            "description": "[!] Cet objet polymorphe établit une relation de prédateur ou de symbiote avec les coiffes inanimés.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35053,
+            "name": "[!] Coiffe du Tofu Royal corrompu",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16953-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16953-128.png"
+            },
+            "description": "[!] Créé à partir de plumes de Tofu Royal ayant succombé à l'influence du Nécromonde, ce couvre-chef risque de vous donner une faim insatiable pour... des graines ?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35054,
+            "name": "[!] Coiffe du Chêne Mou corrompu",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16952-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16952-128.png"
+            },
+            "description": "[!] Le Chêne Mou n'ayant pas su résister à la Nécromisation, des fragments de son écorce corrompue ont servi à créer ce casque, façonné à sa nouvelle image.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35058,
+            "name": "[!] Arc du Wa Dunow",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/2101-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/2101-128.png"
+            },
+            "description": "[!] Une seule flèche tirée par cet arc pourrait traverser une galette de part en part dans le sens de la largeur. Sauf si bien-sûr, elle touche la fève, mais la probabilité est tellement faible qu'on ne sait même pas si c'est déjà arrivé.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

@@ -126593,7 +126593,7 @@
         },
         {
             "ankama_id": 34691,
-            "name": "[!] La Lignée Bellaphone",
+            "name": "El linaje belíade",
             "type": {
                 "name": "Documento",
                 "id": 76
@@ -126603,7 +126603,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/25131-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/25131-128.png"
             },
-            "description": "[!] Informations diverses sur les Bellaphones.",
+            "description": "Información diversa sobre los belíades.",
             "effects": [
                 {
                     "int_minimum": 787,
@@ -128559,7 +128559,7 @@
         },
         {
             "ankama_id": 34997,
-            "name": "[!] Diplôme de Fou d'Incarnam",
+            "name": "Diploma de loco de Incarnam",
             "type": {
                 "name": "Pergamino de título",
                 "id": 57
@@ -128569,7 +128569,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/76046-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/76046-128.png"
             },
-            "description": "[!] Ce diplôme confère le titre « Fou d'Incarnam ».",
+            "description": "Este diploma otorga el título de «Loco de Incarnam».",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -128582,7 +128582,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Título: [!] Fou d'Incarnam."
+                    "formatted": "Título: Loco de Incarnam."
                 },
                 {
                     "int_minimum": 0,
@@ -128599,49 +128599,6 @@
                 }
             ],
             "pods": 1
-        },
-        {
-            "ankama_id": 35003,
-            "name": "[!] Pose de la source",
-            "type": {
-                "name": "Poses",
-                "id": 250
-            },
-            "level": 1,
-            "image_urls": {
-                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/325019-64.png",
-                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/325019-128.png"
-            },
-            "description": "[!] Cette nouvelle pose vous permettra de varier les plaisirs.",
-            "effects": [
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Desbloquea una pose",
-                        "id": 266,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Desbloquea una pose"
-                },
-                {
-                    "int_minimum": 0,
-                    "int_maximum": 0,
-                    "type": {
-                        "name": "Intercambiable:",
-                        "id": 0,
-                        "is_meta": false,
-                        "is_active": false
-                    },
-                    "ignore_int_min": true,
-                    "ignore_int_max": true,
-                    "formatted": "Intercambiable: 0"
-                }
-            ],
-            "pods": 0
         },
         {
             "ankama_id": 35036,
@@ -128669,6 +128626,49 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "[!] Ajoute un niveau dans la lignée courante"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 35057,
+            "name": "[!] Diplôme d'Avent-Garde'",
+            "type": {
+                "name": "Pergamino de título",
+                "id": 57
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/76046-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/76046-128.png"
+            },
+            "description": "[!] Ce diplôme confère le titre « Avent-Garde ».",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Título:.",
+                        "id": 35,
+                        "is_meta": true,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Título: [!] Avent-Garde."
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
                 }
             ],
             "pods": 1

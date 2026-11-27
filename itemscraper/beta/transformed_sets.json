@@ -47257,12 +47257,13 @@
         "name_es": "Set cosmético del Wey Henelnowte",
         "name_pt": "Conjunto de Aparência do Wei Donowt",
         "name_de": "Prunkset des Kwönigs Desnowdens",
-        "items": 4,
+        "items": 5,
         "equipment_ids": [
             20739,
             22322,
             24188,
-            26256
+            26256,
+            35058
         ]
     },
     {
@@ -62385,8 +62386,8 @@
         "ankama_id": 1115,
         "name_en": "Draconifer Set",
         "name_fr": "Panoplie Mandragon",
-        "name_es": "Set dracornoque",
-        "name_pt": "Conjunto Drakasca",
+        "name_es": "Set de mandragón",
+        "name_pt": "Conjunto Mandragão",
         "name_de": "Drachaunen-Set",
         "items": 3,
         "stats_list": [
@@ -62436,8 +62437,8 @@
         "ankama_id": 1116,
         "name_en": "Seadragon Set",
         "name_fr": "Panoplie Thalassydre",
-        "name_es": "Set dragocampo",
-        "name_pt": "Conjunto Dragão-Marinho",
+        "name_es": "Set de hídrada",
+        "name_pt": "Conjunto Talassidra",
         "name_de": "Wasserhydra-Set",
         "items": 3,
         "stats_list": [
@@ -63082,8 +63083,8 @@
         "ankama_id": 1129,
         "name_en": "Panoplie d'apparat de la Démone VIII",
         "name_fr": "Panoplie d'apparat de la Démone VIII",
-        "name_es": "Panoplie d'apparat de la Démone VIII",
-        "name_pt": "Panoplie d'apparat de la Démone VIII",
+        "name_es": "Set cosmético de la Demonio VIII",
+        "name_pt": "Conjunto de Aparência da Demônia VIII",
         "name_de": "Prunkset von Dämonin VIII",
         "items": 4,
         "equipment_ids": [
@@ -63097,8 +63098,8 @@
         "ankama_id": 1130,
         "name_en": "Panoplie d'apparat diaprée de la Démone VIII",
         "name_fr": "Panoplie d'apparat diaprée de la Démone VIII",
-        "name_es": "Panoplie d'apparat diaprée de la Démone VIII",
-        "name_pt": "Panoplie d'apparat diaprée de la Démone VIII",
+        "name_es": "Set cosmético matizado de la Demonio VIII",
+        "name_pt": "Conjunto de Aparência Matizado da Demônia VIII",
         "name_de": "Schillerndes Prunkset von Dämonin VIII",
         "items": 4,
         "equipment_ids": [
@@ -63112,8 +63113,8 @@
         "ankama_id": 1131,
         "name_en": "Panoplie d'apparat de la source",
         "name_fr": "Panoplie d'apparat de la source",
-        "name_es": "Panoplie d'apparat de la source",
-        "name_pt": "Panoplie d'apparat de la source",
+        "name_es": "Set cosmético de la Fuente",
+        "name_pt": "Conjunto de Aparência da Fonte",
         "name_de": "Quellen-Prunkset",
         "items": 5,
         "equipment_ids": [
@@ -63128,8 +63129,8 @@
         "ankama_id": 1132,
         "name_en": "Panoplie d'apparat Glucolique",
         "name_fr": "Panoplie d'apparat Glucolique",
-        "name_es": "Panoplie d'apparat Glucolique",
-        "name_pt": "Panoplie d'apparat Glucolique",
+        "name_es": "Set cosmético glucólico",
+        "name_pt": "Conjunto de Aparência Glucólico",
         "name_de": "Glukolisches Prunkset",
         "items": 4,
         "equipment_ids": [
@@ -63143,8 +63144,8 @@
         "ankama_id": 1133,
         "name_en": "Panoplie d'apparat Bellaphone",
         "name_fr": "Panoplie d'apparat Bellaphone",
-        "name_es": "Panoplie d'apparat Bellaphone",
-        "name_pt": "Panoplie d'apparat Bellaphone",
+        "name_es": "Set cosmético belíade",
+        "name_pt": "Conjunto de Aparência Beléfone",
         "name_de": "Bellaphon-Prunkset",
         "items": 6,
         "equipment_ids": [
