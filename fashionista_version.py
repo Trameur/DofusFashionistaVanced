@@ -123,16 +123,16 @@ WATCHED_TOUCH_ASSETS = "3.3.12_3aBBdvo4IHy0kS1LccWaHBTXI9ekER57"
 
 WATCHED_TOUCH_BETA_ASSETS = "3.4.4_C_DCP0c*cAXPq_jZFzATAQJ_wgR9YNRn"
 # Retro Beta's lang tree is a static-data folder of its own, with the same categories as Retro's.
-WATCHED_RETROBETA_BUILD = "1.50.0.5770.137-36058be"
+WATCHED_RETROBETA_BUILD = "1.50.0.5780.144-ac3a966"
 WATCHED_RETROBETA_LANG_ROOT = "https://dofusretro.cdn.ankama.com/static-data/638/lang"
 WATCHED_RETROBETA_LANG = {
-    'items': '100435',
-    'itemstats': '100438',
-    'itemsets': '100466',
-    'crafts': '100466',
-    'effects': '100466',
-    'classes': '100464',
-    'spells': '100462',
+    'items': '100436',
+    'itemstats': '100439',
+    'itemsets': '100467',
+    'crafts': '100467',
+    'effects': '100467',
+    'classes': '100465',
+    'spells': '100463',
 }
 
 # Retro item data comes from the lang CDN, not from the client build, and that
