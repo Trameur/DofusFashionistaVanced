@@ -77,6 +77,13 @@ def _name(translations: Dict[str, Dict[str, str]], text_id: Any,
     return {lang: translations.get(lang, {}).get(key) for lang in languages}
 
 
+def _grade_rates(drop: Mapping[str, Any]) -> List[Any]:
+    """The drop rate of each monster grade: the per-grade list when the client has one, else the five grade fields."""
+    if "percentDropsForGrades" in drop:
+        return _unwrap_array(drop["percentDropsForGrades"]) or [0]
+    return [drop.get("percentDropForGrade%d" % g, 0) for g in range(1, 6)]
+
+
 def build_drops_index(dataset_dir: Path,
                       languages: Sequence[str] = LANGUAGES) -> Dict[str, Any]:
     monsters = _load_datacenter_table(dataset_dir / "monsters.json")
@@ -108,7 +115,7 @@ def build_drops_index(dataset_dir: Path,
     for monster_id, monster in monsters.items():
         names = _name(translations, monster.get("nameId"), languages)
         for drop in _unwrap_array(monster.get("drops")):
-            rates = [drop.get("percentDropForGrade%d" % g, 0) for g in range(1, 6)]
+            rates = _grade_rates(drop)
             # dofus3/beta name the field criterions; Dofus 2 calls it criteria.
             conditions = (drop.get("criterions") or drop.get("criteria") or "").strip()
             if conditions.lower() == "null":  # some raws serialize "none" this way
