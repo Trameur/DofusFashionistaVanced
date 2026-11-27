@@ -460,6 +460,9 @@ for item in equipment_data['en']['items']:
     if raw_criteria is not None and item.get('ankama_id') in raw_criteria:
         criteria = raw_criteria[item['ankama_id']]
         tree = item_criteria.read(criteria, item['ankama_id'])
+        branch_count = item_criteria.or_branch_count(tree)
+        if branch_count > max(1, transformed_item.get("or_branch_count", 0)):
+            transformed_item["or_branch_count"] = branch_count
         # Unread criteria keep the gates the API gave
         if tree is not None or not criteria:
             transformed_item["conditions"] = (item_criteria.stat_conditions(tree)

@@ -408,6 +408,11 @@ def _branches(tree):
     return combined
 
 
+def or_branch_count(tree):
+    """How many OR branches the whole criteria tree has, 0 for none."""
+    return 0 if tree is None else len(_branches(tree))
+
+
 def stat_conditions(tree):
     """['Strength > 20', 'MP < 6 | AP < 12', ...]: parts ANDed, the OR parts in one string."""
     if tree is None:
