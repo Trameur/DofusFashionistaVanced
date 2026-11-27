@@ -2424,6 +2424,26 @@ def _build_counter_branch_aggregates(
     return aggregates
 
 
+def _build_previewed_counter_aggregates(
+    spell: Mapping[str, Any],
+    rows: Sequence[Mapping[str, Any]],
+    total_row_count: int,
+    spell_lookup: Optional[Mapping[int, Mapping[str, Any]]],
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """Preview rows each gated on its own value of one caster counter: the rows are its cases."""
+    if len(rows) < 2:
+        return None
+    gates = _row_counter_gates(spell, rows, spell_lookup)
+    if None in gates or len(set(gates)) != len(gates) or len({gate[0] for gate in gates}) != 1:
+        return None
+    if len({(row.get("element"), row.get("triggers")) for row in rows}) != 1:
+        return None
+    aggregates = [("", [idx]) for idx in range(len(rows))]
+    for idx in range(len(rows), total_row_count):
+        aggregates.append(("", [idx]))
+    return aggregates
+
+
 def _one_distance_from_the_centre(situation: Any) -> Optional[int]:
     """The distance a point or a ring zone covers, None for a zone covering several."""
     _mask, _sep, zone = str(situation or "").partition("|")
@@ -3702,6 +3722,9 @@ def convert_spell(
             spell.get("ankama_id"), normal_rows, len(non_crit))
     if not aggregates:
         aggregates = _build_counter_branch_aggregates(spell, normal_rows, len(non_crit))
+    if not aggregates:
+        aggregates = _build_previewed_counter_aggregates(
+            spell, normal_rows, len(non_crit), spell_lookup)
     if not aggregates:
         aggregates = _build_target_condition_aggregates(normal_rows, len(non_crit))
     if not aggregates:
