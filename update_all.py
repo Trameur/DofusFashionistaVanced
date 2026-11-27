@@ -426,14 +426,22 @@ def probe(version, catalog=None):
         tag, release = importable_release(version, served, result['official'], current, result['warnings'])
         if newer(current, tag):
             raise ValueError('Source older than the local version: %s < %s; downgrade refused.' % (tag, current))
+        from_game_files = False
         if release is None:
-            release = complete_release(version, tag, release_assets(version) if tag == served else release_assets(version) | ITEM_ASSETS)
+            try:
+                release = complete_release(version, tag, release_assets(version) if tag == served else release_assets(version) | ITEM_ASSETS)
+            except (OSError, ValueError, KeyError) as exc:
+                if tag == served or not tag == current == result['official']:
+                    raise
+                from_game_files = True
+                result['warnings'].append('dofusdude has no %s release yet (%s): the local %s came from the game files.'
+                                          % (tag, exc, tag))
         result['available'] = tag
-        result['source'] = {'version': tag, 'archive': release['tag_name']}
+        result['source'] = {'version': tag, 'archive': None if from_game_files else release['tag_name']}
         if served == tag:
             result['source']['update_stamp'] = api.get('update_stamp')
         if version in ITEMS_FROM_RELEASE:
-            result['items'] = 'dofusdude API' if served == tag else 'release files'
+            result['items'] = 'game files' if from_game_files else 'dofusdude API' if served == tag else 'release files'
         result['changed'] = result['current'] != tag
     elif version == 'touch':
         config = fetch_json(TOUCH)

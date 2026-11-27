@@ -256,6 +256,23 @@ class UpdateLauncherTests(TestCase):
             updater.show_versions([row])
         self.assertIn('No change found', output.getvalue())
 
+    def test_a_client_version_imported_from_the_game_files_before_its_release_is_no_change(self):
+        for key in ('dofus3', 'beta'):
+            with self.subTest(key=key):
+                row = self.dofusdude_probe(key, '3.7.1.0', '3.7.5.0', {
+                    '3.7.1.0': self.release(*self.DATA_FILES)}, local='3.7.5.0')
+                self.assertIsNone(row['error'])
+                self.assertFalse(row['changed'])
+                self.assertEqual('3.7.5.0', row['available'])
+                self.assertEqual({'version': '3.7.5.0', 'archive': None}, row['source'])
+                self.assertEqual('game files', row['items'])
+                self.assertIn('the local 3.7.5.0 came from the game files', row['warnings'][-1])
+
+    def test_a_client_past_a_game_files_import_without_any_release_still_fails(self):
+        with self.assertRaises(urllib.error.HTTPError):
+            self.dofusdude_probe('beta', '3.7.1.0', '3.7.6.0', {
+                '3.7.1.0': self.release(*self.DATA_FILES)}, local='3.7.5.0')
+
     def test_an_api_newer_than_the_client_is_imported_with_a_warning(self):
         row = self.dofusdude_probe('dofus3', '3.7.5.0', '3.7.4.4', {
             '3.7.5.0': self.release(*self.DATA_FILES),
